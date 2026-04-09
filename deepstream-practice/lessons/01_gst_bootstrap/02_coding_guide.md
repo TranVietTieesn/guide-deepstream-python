@@ -1,59 +1,59 @@
 # Lesson 01 Coding Guide
 
-Guide nay khong thay the `01_guide.md`. `01_guide.md` giup ban hieu bai hoc, con file nay
-giup ban biet can go dong nao, go theo thu tu nao, va tai sao.
+Guide này không thay thế `01_guide.md`. `01_guide.md` giúp bạn hiểu bài học, còn file này
+giúp bạn biết cần gõ dòng nào, gõ theo thứ tự nào, và tại sao.
 
 ## Before You Code
 
-- File se duoc chay bang lenh:
+- File sẽ được chạy bằng lệnh:
 
 ```bash
 python3 lessons/01_gst_bootstrap/03_starter.py /path/to/any-file
 ```
 
-- `import os`: dung de kiem tra file co ton tai khong.
-- `import sys`: dung de lay `sys.argv` va thoat voi ma loi.
-- `import gi` va `from gi.repository import GLib, Gst`: day la cach PyGObject expose
-  GStreamer va GLib vao Python.
+- `import os`: dùng để kiểm tra file có tồn tại không.
+- `import sys`: dùng để lấy `sys.argv` và thoát với mã lỗi.
+- `import gi` và `from gi.repository import GLib, Gst`: đây là cách PyGObject expose
+  GStreamer và GLib vào Python.
 
-Ban chua can hieu sau ve `gi` ngay lap tuc. Trong bai nay, chi can nho:
+Bạn chưa cần hiểu sâu về `gi` ngay lập tức. Trong bài này, chỉ cần nhớ:
 
-- `Gst` chua cac class/hang so/hang enum cua GStreamer.
-- `GLib.MainLoop()` la vong lap su kien de app nhan callback.
+- `Gst` chứa các class/hằng số/hằng enum của GStreamer.
+- `GLib.MainLoop()` là vòng lặp sự kiện để app nhận callback.
 
 ## Build Order
 
-Hay code theo thu tu nay:
+Hãy code theo thứ tự này:
 
-1. Hoan thanh callback `on_message(...)`.
-2. Xu ly input trong `main(args)`.
-3. Goi `Gst.init(None)`.
-4. Tao pipeline va element.
+1. Hoàn thành callback `on_message(...)`.
+2. Xử lý input trong `main(args)`.
+3. Gọi `Gst.init(None)`.
+4. Tạo pipeline và element.
 5. Set property cho `filesrc`.
-6. Add va link element.
-7. Tao `loop`, lay `bus`, dang ky callback.
-8. Chuyen pipeline sang `PLAYING`.
-9. Trong `finally`, dua ve `NULL`.
+6. Add và link element.
+7. Tạo `loop`, lấy `bus`, đăng ký callback.
+8. Chuyển pipeline sang `PLAYING`.
+9. Trong `finally`, đưa về `NULL`.
 
-Neu ban di dung thu tu nay, ban se it bi "tao sai thu tu roi khong biet sua o dau".
+Nếu bạn đi đúng thứ tự này, bạn sẽ ít bị "tạo sai thứ tự rồi không biết sửa ở đâu".
 
 ## Function-By-Function Walkthrough
 
 ### `on_message(bus, message, loop)`
 
-Ham nay la callback cho bus. Khi pipeline gui message len bus, GStreamer se goi ham
-nay.
+Hàm này là callback cho bus. Khi pipeline gửi message lên bus, GStreamer sẽ gọi hàm
+này.
 
-Ba tham so trong bai nay:
+Ba tham số trong bài này:
 
-- `bus`: doi tuong bus da goi callback. O bai nay ban khong can dung nhieu.
-- `message`: message vua duoc gui len bus. Day la tham so quan trong nhat.
-- `loop`: `GLib.MainLoop()` ma ban truyen vao luc `bus.connect(...)`, dung de
-  `loop.quit()` khi can dung app.
+- `bus`: đối tượng bus đã gọi callback. Ở bài này bạn không cần dùng nhiều.
+- `message`: message vừa được gửi lên bus. Đây là tham số quan trọng nhất.
+- `loop`: `GLib.MainLoop()` mà bạn truyền vào lúc `bus.connect(...)`, dùng để
+  `loop.quit()` khi cần dừng app.
 
-Thu tu viet hop ly:
+Thứ tự viết hợp lý:
 
-1. Lay `message_type = message.type`
+1. Lấy `message_type = message.type`
 2. `if message_type == Gst.MessageType.EOS:`
 3. `elif message_type == Gst.MessageType.ERROR:`
 4. `elif message_type == Gst.MessageType.STATE_CHANGED:`
@@ -69,10 +69,10 @@ if message_type == Gst.MessageType.EOS:
     loop.quit()
 ```
 
-Giai thich:
+Giải thích:
 
-- `message.type` la enum, nen ban so sanh voi `Gst.MessageType.EOS`.
-- Khi gap `EOS`, bai nay khong con viec gi de lam nua, nen goi `loop.quit()`.
+- `message.type` là enum, nên bạn so sánh với `Gst.MessageType.EOS`.
+- Khi gặp `EOS`, bài này không còn việc gì để làm nữa, nên gọi `loop.quit()`.
 
 ### `ERROR`
 
@@ -87,11 +87,11 @@ elif message_type == Gst.MessageType.ERROR:
     loop.quit()
 ```
 
-Giai thich:
+Giải thích:
 
-- `message.parse_error()` tra ve 2 gia tri: loi chinh va debug string.
-- Vi day la Python, ban co the unpack truc tiep bang `err, debug = ...`.
-- Sau khi in loi, thuong se `loop.quit()` vi pipeline dang o trang thai loi.
+- `message.parse_error()` trả về 2 giá trị: lỗi chính và debug string.
+- Vì đây là Python, bạn có thể unpack trực tiếp bằng `err, debug = ...`.
+- Sau khi in lỗi, thường sẽ `loop.quit()` vì pipeline đang ở trạng thái lỗi.
 
 ### `STATE_CHANGED`
 
@@ -111,40 +111,40 @@ elif message_type == Gst.MessageType.STATE_CHANGED:
         )
 ```
 
-Giai thich:
+Giải thích:
 
-- Rat nhieu element cung phat `STATE_CHANGED`, nen ban loc chi lay pipeline chinh.
-- `message.src` la object gui message.
-- `get_name()` giup ban kiem tra co dung pipeline vua tao khong.
-- `parse_state_changed()` tra ve 3 state.
+- Rất nhiều element cũng phát `STATE_CHANGED`, nên bạn lọc chỉ lấy pipeline chính.
+- `message.src` là object gửi message.
+- `get_name()` giúp bạn kiểm tra có đúng pipeline vừa tạo không.
+- `parse_state_changed()` trả về 3 state.
 
 ### `main(args)`
 
-`args` o day chinh la `sys.argv`, duoc truyen vao tu dong cuoi file:
+`args` ở đây chính là `sys.argv`, được truyền vào tự động cuối file:
 
 ```python
 raise SystemExit(main(sys.argv))
 ```
 
-Dieu nay co nghia:
+Điều này có nghĩa:
 
-- `args[0]` la ten file Python dang chay
-- `args[1]` la input path nguoi dung truyen vao
+- `args[0]` là tên file Python đang chạy
+- `args[1]` là input path người dùng truyền vào
 
 ## TODO Mapping
 
 ### TODO 1: Xu ly bus message trong `on_message(...)`
 
-Ban viet ba nhanh `EOS`, `ERROR`, `STATE_CHANGED` nhu o tren.
+Bạn viết ba nhánh `EOS`, `ERROR`, `STATE_CHANGED` như ở trên.
 
 Mini checkpoint:
 
-- Ban da biet `message.type` dung de lam gi
-- Ban da biet tai sao callback can `loop`
+- Bạn đã biết `message.type` dùng để làm gì
+- Bạn đã biết tại sao callback cần `loop`
 
 ### TODO 2: Tao pipeline va element
 
-Trong `main(args)`, sau `Gst.init(None)`, hay viet:
+Trong `main(args)`, sau `Gst.init(None)`, hãy viết:
 
 ```python
 pipeline = Gst.Pipeline.new("lesson-01-pipeline")
@@ -152,73 +152,73 @@ source = Gst.ElementFactory.make("filesrc", "file-source")
 sink = Gst.ElementFactory.make("fakesink", "fake-sink")
 ```
 
-Giai thich:
+Giải thích:
 
-- `Gst.Pipeline.new(...)` tao mot pipeline moi.
-- `Gst.ElementFactory.make(factory_name, name)` tao element tu plugin factory.
-- Neu plugin khong ton tai hoac tao that bai, gia tri co the la `None`.
+- `Gst.Pipeline.new(...)` tạo một pipeline mới.
+- `Gst.ElementFactory.make(factory_name, name)` tạo element từ plugin factory.
+- Nếu plugin không tồn tại hoặc tạo thất bại, giá trị có thể là `None`.
 
-Vi vay ban can giu block check:
+Vì vậy bạn cần giữ block check:
 
 ```python
 if not pipeline or not source or not sink:
     ...
 ```
 
-Dong tiep theo thuong la set property cho source.
+Dòng tiếp theo thường là set property cho source.
 
 ### TODO 3: Set property cho `filesrc`
 
-Hay viet:
+Hãy viết:
 
 ```python
 source.set_property("location", input_path)
 ```
 
-Giai thich:
+Giải thích:
 
-- `set_property(...)` la cach dat property cho GObject trong PyGObject.
-- `"location"` la ten property cua `filesrc`.
-- `input_path` la gia tri nguoi dung truyen vao.
+- `set_property(...)` là cách đặt property cho GObject trong PyGObject.
+- `"location"` là tên property của `filesrc`.
+- `input_path` là giá trị người dùng truyền vào.
 
-Dong tiep theo thuong la add element vao pipeline.
+Dòng tiếp theo thường là add element vào pipeline.
 
 ### TODO 4: Add element vao pipeline
 
-Hay viet:
+Hãy viết:
 
 ```python
 pipeline.add(source)
 pipeline.add(sink)
 ```
 
-Giai thich:
+Giải thích:
 
-- Element phai nam trong pipeline thi moi co the link va chay cung pipeline.
-- `add(...)` khong tra ve gia tri ma ban can dung tiep trong bai nay.
+- Element phải nằm trong pipeline thì mới có thể link và chạy cùng pipeline.
+- `add(...)` không trả về giá trị mà bạn cần dùng tiếp trong bài này.
 
-Dong tiep theo thuong la `link(...)`.
+Dòng tiếp theo thường là `link(...)`.
 
 ### TODO 5: Link `filesrc -> fakesink`
 
-Hay viet:
+Hãy viết:
 
 ```python
 if not source.link(sink):
-    print("Khong link duoc filesrc -> fakesink", file=sys.stderr)
+    print("Không link được filesrc -> fakesink", file=sys.stderr)
     return 1
 ```
 
-Giai thich:
+Giải thích:
 
-- `link(...)` thuong tra ve bool cho bie t co noi thanh cong hay khong.
-- O bai nay, hai element co the link truc tiep bang API element-level.
+- `link(...)` thường trả về bool cho biết có nối thành công hay không.
+- Ở bài này, hai element có thể link trực tiếp bằng API element-level.
 
-Sau do ban moi tao `GLib.MainLoop()` va bus.
+Sau đó bạn mới tạo `GLib.MainLoop()` và bus.
 
 ### TODO 6: Bus va main loop
 
-Block co san:
+Block có sẵn:
 
 ```python
 loop = GLib.MainLoop()
@@ -227,24 +227,24 @@ bus.add_signal_watch()
 bus.connect("message", on_message, loop)
 ```
 
-Giai thich:
+Giải thích:
 
-- `GLib.MainLoop()` tao event loop.
-- `pipeline.get_bus()` lay bus cua pipeline.
-- `add_signal_watch()` bao voi GLib rang ban muon nhan message theo kieu signal/callback.
-- `connect("message", on_message, loop)` noi signal `message` voi callback
-  `on_message`, dong thoi truyen them `loop` vao callback.
+- `GLib.MainLoop()` tạo event loop.
+- `pipeline.get_bus()` lấy bus của pipeline.
+- `add_signal_watch()` bảo với GLib rằng bạn muốn nhận message theo kiểu signal/callback.
+- `connect("message", on_message, loop)` nối signal `message` với callback
+  `on_message`, đồng thời truyền thêm `loop` vào callback.
 
 ## Syntax Notes
 
-- `if not source`: trong Python, cach nay dung de check `None` hoac gia tri falsy.
-- `err, debug = ...`: day la tuple unpacking.
-- `f"...{value}..."`: day la f-string de noi chuoi.
-- `return True` trong callback nghia la tiep tuc nhan message tiep.
+- `if not source`: trong Python, cách này dùng để check `None` hoặc giá trị falsy.
+- `err, debug = ...`: đây là tuple unpacking.
+- `f"...{value}..."`: đây là f-string để nối chuỗi.
+- `return True` trong callback nghĩa là tiếp tục nhận message tiếp.
 
 ## Mini Checkpoints
 
-- Sau TODO 2: ban phai co `pipeline`, `source`, `sink`.
-- Sau TODO 4: hai element da nam trong pipeline.
-- Sau TODO 5: pipeline da noi xong tu source den sink.
-- Sau TODO 6: app da san sang nhan `EOS` va `ERROR`.
+- Sau TODO 2: bạn phải có `pipeline`, `source`, `sink`.
+- Sau TODO 4: hai element đã nằm trong pipeline.
+- Sau TODO 5: pipeline đã nối xong từ source đến sink.
+- Sau TODO 6: app đã sẵn sàng nhận `EOS` và `ERROR`.

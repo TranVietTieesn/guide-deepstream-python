@@ -1,22 +1,23 @@
 # Lesson 01 Extensions
 
-## Co ban
+## Cơ bản
 
-1. In ra ten tung element trong pipeline bang `pipeline.iterate_elements()`.
-   - Quan sat: pipeline cua ban dang chua chinh xac nhung element nao?
-2. Log state transition cua pipeline.
-   - Quan sat: co nhin thay `NULL -> READY -> PAUSED -> PLAYING` khong?
-3. Doi `fakesink` thanh `filesink`.
-   - Quan sat: byte co duoc ghi ra file khong, va dieu do noi gi ve vai tro cua
-     `filesrc` trong bai nay?
+1. In ra tên từng element trong pipeline bằng `pipeline.iterate_elements()`.
+  - Quan sát: pipeline của bạn đang chứa chính xác những element nào?
+2. Log state transition của pipeline.
+  - Quan sát: có nhìn thấy `NULL -> READY -> PAUSED -> PLAYING` không?
+3. Đổi `fakesink` thành `filesink`.
+  - Quan sát: byte có được ghi ra file không, và điều đó nói gì về vai trò của
+   `filesrc` trong bài này?
 
-## Nang hon nhung van trong boundary lesson
+## Nâng hơn nhưng vẫn trong boundary lesson
 
-1. Bo bus watch va chay lai.
-   - Quan sat: app con nhan `EOS`/`ERROR` theo callback nua khong?
-   - Ket luan: `GLib.MainLoop()` va bus watch dang phoi hop nhu the nao?
-2. Co y truyen mot duong dan khong ton tai.
-   - Quan sat: loi xuat hien o dau, va `ERROR` message cho ban biet gi?
-3. Doi ten pipeline va in ten `message.src` khi co `STATE_CHANGED`.
-   - Quan sat: khong chi pipeline, cac element ben trong cung co the phat state
-     message.
+1. Bỏ bus watch và chạy lại.
+  - Quan sát: app còn nhận `EOS`/`ERROR` theo callback nữa không?
+  - Kết luận: `GLib.MainLoop()` và bus watch đang phối hợp như thế nào?
+2. Cố ý truyền một đường dẫn không tồn tại.
+  - Quan sát: lỗi xuất hiện ở đâu, và `ERROR` message cho bạn biết gì?
+3. Đổi tên pipeline và in tên `message.src` khi có `STATE_CHANGED`.
+  - Quan sát: không chỉ pipeline, các element bên trong cũng có thể phát state
+   message.
+
