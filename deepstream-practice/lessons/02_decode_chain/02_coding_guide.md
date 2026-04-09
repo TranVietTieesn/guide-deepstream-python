@@ -35,7 +35,7 @@ Imports giống lesson 01, nhưng từ lesson này bạn bắt đầu có thêm 
 Ở bài này bạn chỉ cần `EOS` và `ERROR`. Không bắt buộc phải thêm
 `STATE_CHANGED` nữa vì bài học đang tập trung vào decode chain.
 
-Mau viet:
+Mẫu viết:
 
 ```python
 def on_message(bus, message, loop):
@@ -56,7 +56,7 @@ Việc đặt `_ = bus` là để nói rằng tham số này chưa được dùn
 
 ### `make_element(factory_name, name)`
 
-Mau viet:
+Mẫu viết:
 
 ```python
 def make_element(factory_name, name):
@@ -85,75 +85,75 @@ decoder = make_element("nvv4l2decoder", "hw-decoder")
 sink = make_element("fakesink", "fake-sink")
 ```
 
-Giai thich:
+Giải thích:
 
-- `make_element(...)` da gom san logic check loi.
-- `pipeline` van duoc tao rieng vi no khong phai element factory thong thuong.
+- `make_element(...)` đã gồm sẵn logic check lỗi.
+- `pipeline` vẫn được tạo riêng vì nó không phải element factory thông thường.
 
 ### Set property
 
-Hay viet:
+Hãy viết:
 
 ```python
 source.set_property("location", input_path)
 sink.set_property("sync", False)
 ```
 
-Giai thich:
+Giải thích:
 
-- `location` chi cho `filesrc` file nao can doc.
-- `sync=False` voi `fakesink` thuong duoc dung de sink khong co gang dong bo voi
-  clock hien thi. O bai hoc phan tich pipeline, dieu nay giup sink "de tinh" hon.
+- `location` chỉ cho `filesrc` file nào cần đọc.
+- `sync=False` với `fakesink` thường được dùng để sink không cố gắng đồng bộ với
+  clock hiển thị. Ở bài học phân tích pipeline, điều này giúp sink "dễ tính" hơn.
 
-### Add element vao pipeline
+### Add element vào pipeline
 
-Mau viet:
+Mẫu viết:
 
 ```python
 for element in (source, parser, decoder, sink):
     pipeline.add(element)
 ```
 
-Giai thich:
+Giải thích:
 
-- Python cho phep loop qua tuple de giam lap code.
-- Sau block nay, tat ca element da nam trong pipeline.
+- Python cho phép loop qua tuple để giảm lặp code.
+- Sau block này, tất cả element đã nằm trong pipeline.
 
-### Link tung buoc
+### Link từng bước
 
-Mau viet:
+Mẫu viết:
 
 ```python
 if not source.link(parser):
-    raise RuntimeError("Khong link duoc filesrc -> h264parse")
+    raise RuntimeError("Không link được filesrc -> h264parse")
 if not parser.link(decoder):
-    raise RuntimeError("Khong link duoc h264parse -> nvv4l2decoder")
+    raise RuntimeError("Không link được h264parse -> nvv4l2decoder")
 if not decoder.link(sink):
-    raise RuntimeError("Khong link duoc nvv4l2decoder -> fakesink")
+    raise RuntimeError("Không link được nvv4l2decoder -> fakesink")
 ```
 
-Giai thich:
+Giải thích:
 
-- `link(...)` tra ve bool.
-- O bai nay, link bang element-level API la du vi cac pad can dung deu la static
-  va co the noi truc tiep.
-- Thu tu link cung la thu tu du lieu chay trong pipeline.
+- `link(...)` trả về bool.
+- Ở bài này, link bằng element-level API là đủ vì các pad cần dùng đều là static
+  và có thể nối trực tiếp.
+- Thứ tự link cũng là thứ tự dữ liệu chạy trong pipeline.
 
 ## Starter Mapping
 
-### TODO 1: Hoan thanh `on_message(...)`
+### TODO 1: Hoàn thành `on_message(...)`
 
-- Giai quyet `EOS`
-- Giai quyet `ERROR`
+- Giải quyết `EOS`
+- Giải quyết `ERROR`
 - `return True`
 
-### TODO 2: Hoan thanh `make_element(...)`
+### TODO 2: Hoàn thành `make_element(...)`
 
-- Tao bang `Gst.ElementFactory.make(...)`
-- Check loi ngay
+- Tạo bằng `Gst.ElementFactory.make(...)`
+- Check lỗi ngay
 - `return element`
 
-### TODO 3: Tao 4 element can thiet
+### TODO 3: Tạo 4 element cần thiết
 
 - `filesrc`
 - `h264parse`
@@ -165,9 +165,9 @@ Giai thich:
 - `source.location = input_path`
 - `sink.sync = False`
 
-### TODO 5: Add element vao pipeline
+### TODO 5: Add element vào pipeline
 
-- Co the dung `for element in (...)`
+- Có thể dùng `for element in (...)`
 
 ### TODO 6: Link decode chain
 
@@ -175,13 +175,13 @@ Giai thich:
 
 ## Syntax Notes
 
-- `raise RuntimeError(...)` la cach dung de dung ngay khi co loi logic/tao element.
-- `for element in (...)` la cach viet Python gon de lam lap lai cung mot thao tac.
-- `False` trong Python la bool, dung truc tiep khi set property kieu boolean.
+- `raise RuntimeError(...)` là cách dùng để dừng ngay khi có lỗi logic/tạo element.
+- `for element in (...)` là cách viết Python gọn để làm lặp lại cùng một thao tác.
+- `False` trong Python là bool, dùng trực tiếp khi set property kiểu boolean.
 
 ## Mini Checkpoints
 
-- Sau TODO 2: ban da co helper de tao element nhanh va an toan.
-- Sau TODO 3: ban phai co du 4 element cua decode chain.
-- Sau TODO 4: source da biet doc file nao, sink da duoc config.
-- Sau TODO 6: pipeline da noi xong den cuoi bai hoc.
+- Sau TODO 2: bạn đã có helper để tạo element nhanh và an toàn.
+- Sau TODO 3: bạn phải có đủ 4 element của decode chain.
+- Sau TODO 4: source đã biết đọc file nào, sink đã được config.
+- Sau TODO 6: pipeline đã nối xong đến cuối bài học.

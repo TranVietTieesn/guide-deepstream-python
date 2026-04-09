@@ -42,11 +42,11 @@ Giống lesson 02, bài này chỉ cần `EOS` và `ERROR`.
 
 ### `make_element(factory_name, name)`
 
-Giong lesson 02. Bạn nên hoàn thành helper này trước để phần dưới ngắn gọn hơn.
+Giống lesson 02. Bạn nên hoàn thành helper này trước để phần dưới ngắn gọn hơn.
 
-### Tao element
+### Tạo element
 
-Sau `Gst.init(None)`, hay viet:
+Sau `Gst.init(None)`, hãy viết:
 
 ```python
 pipeline = Gst.Pipeline.new("lesson-03-pipeline")
@@ -61,7 +61,7 @@ Sau block này, bạn mới set property.
 
 ### Set property
 
-Mau viet:
+Mẫu viết:
 
 ```python
 source.set_property("location", input_path)
@@ -85,21 +85,21 @@ Phần này vẫn giống lesson 02:
 
 ```python
 if not source.link(parser):
-    raise RuntimeError("Khong link duoc filesrc -> h264parse")
+    raise RuntimeError("Không link được filesrc -> h264parse")
 if not parser.link(decoder):
-    raise RuntimeError("Khong link duoc h264parse -> nvv4l2decoder")
+    raise RuntimeError("Không link được h264parse -> nvv4l2decoder")
 ```
 
 Bạn dùng lại `element.link(...)` vì đây vẫn là phần static chain.
 
-### Xin request pad tu `nvstreammux`
+### Xin request pad từ `nvstreammux`
 
-Mau viet:
+Mẫu viết:
 
 ```python
 sinkpad = streammux.request_pad_simple("sink_0")
 if not sinkpad:
-    raise RuntimeError("Khong xin duoc request pad sink_0 tu nvstreammux")
+    raise RuntimeError("Không xin được request pad sink_0 từ nvstreammux")
 ```
 
 Giải thích:
@@ -108,14 +108,14 @@ Giải thích:
 - `sink_0` là tên pad cụ thể bạn muốn xin.
 - Khác với `element.link(...)`, ở đây bạn đang thao tác trực tiếp ở mức pad.
 
-### Lay static pad tu `decoder`
+### Lấy static pad từ `decoder`
 
-Mau viet:
+Mẫu viết:
 
 ```python
 srcpad = decoder.get_static_pad("src")
 if not srcpad:
-    raise RuntimeError("Khong lay duoc src pad tu decoder")
+    raise RuntimeError("Không lấy được src pad từ decoder")
 ```
 
 Giải thích:
@@ -125,11 +125,11 @@ Giải thích:
 
 ### Link pad-level
 
-Mau viet:
+Mẫu viết:
 
 ```python
 if srcpad.link(sinkpad) != Gst.PadLinkReturn.OK:
-    raise RuntimeError("Khong link duoc decoder.src -> streammux.sink_0")
+    raise RuntimeError("Không link được decoder.src -> streammux.sink_0")
 ```
 
 Giải thích:
@@ -138,13 +138,13 @@ Giải thích:
 - Nó trả về một giá trị enum `Gst.PadLinkReturn`.
 - Bài học ở đây là: khi làm việc ở mức pad, bạn phải check kết quả theo kiểu pad API.
 
-### Link phan cuoi pipeline
+### Link phần cuối pipeline
 
-Mau viet:
+Mẫu viết:
 
 ```python
 if not streammux.link(sink):
-    raise RuntimeError("Khong link duoc nvstreammux -> fakesink")
+    raise RuntimeError("Không link được nvstreammux -> fakesink")
 ```
 
 Lúc này bạn quay lại element-level API, vì `streammux` đã có src pad phù hợp để nối
@@ -152,17 +152,17 @@ với sink.
 
 ## Starter Mapping
 
-### TODO 1: Hoan thanh `on_message(...)`
+### TODO 1: Hoàn thành `on_message(...)`
 
 - `EOS`
 - `ERROR`
 - `return True`
 
-### TODO 2: Hoan thanh `make_element(...)`
+### TODO 2: Hoàn thành `make_element(...)`
 
-- Giong lesson 02
+- Giống lesson 02
 
-### TODO 3: Tao day du element
+### TODO 3: Tạo đầy đủ element
 
 - `filesrc`
 - `h264parse`
@@ -179,38 +179,38 @@ với sink.
 - `batched-push-timeout`
 - `sync`
 
-### TODO 5: Add element vao pipeline
+### TODO 5: Add element vào pipeline
 
-- Dung loop `for element in (...)`
+- Dùng loop `for element in (...)`
 
 ### TODO 6: Link static chain
 
 - `filesrc -> h264parse -> nvv4l2decoder`
 
-### TODO 7: Xin `sink_0` tu `streammux`
+### TODO 7: Xin `sink_0` từ `streammux`
 
-- Dung `request_pad_simple(...)`
-- Check loi ngay
+- Dùng `request_pad_simple(...)`
+- Check lỗi ngay
 
-### TODO 8: Lay `decoder.src`
+### TODO 8: Lấy `decoder.src`
 
-- Dung `get_static_pad("src")`
-- Check loi ngay
+- Dùng `get_static_pad("src")`
+- Check lỗi ngay
 
-### TODO 9: Link pad-level va link phan cuoi
+### TODO 9: Link pad-level và link phần cuối
 
 - `srcpad.link(sinkpad)`
 - `streammux.link(sink)`
 
 ## Syntax Notes
 
-- `srcpad` va `sinkpad` la `Gst.Pad`, khong phai `Gst.Element`.
-- `element.link(...)` va `pad.link(...)` la hai muc API khac nhau.
-- `!= Gst.PadLinkReturn.OK` la cach check thanh cong cho pad-level link.
+- `srcpad` và `sinkpad` là `Gst.Pad`, không phải `Gst.Element`.
+- `element.link(...)` và `pad.link(...)` là hai mức API khác nhau.
+- `!= Gst.PadLinkReturn.OK` là cách check thành công cho pad-level link.
 
 ## Mini Checkpoints
 
-- Sau TODO 4: muxer da duoc cau hinh, khong chi moi duoc tao ra.
-- Sau TODO 6: pipeline da chay den `decoder`.
-- Sau TODO 8: ban da co 2 pad object trong tay.
-- Sau TODO 9: pipeline da noi xong qua `nvstreammux`.
+- Sau TODO 4: muxer đã được cấu hình, không chỉ mới được tạo ra.
+- Sau TODO 6: pipeline đã chạy đến `decoder`.
+- Sau TODO 8: bạn đã có 2 pad object trong tay.
+- Sau TODO 9: pipeline đã nối xong qua `nvstreammux`.

@@ -8,41 +8,41 @@
 
 ## Why It Matters
 
-- Lesson nay nam o dau trong chuoi DeepStream lon hon?
-- Sau bai nay, nguoi hoc se tu viet duoc phan nao?
+- Lesson này nằm ở đâu trong chuỗi DeepStream lớn hơn?
+- Sau bài này, người học sẽ tự viết được phần nào?
 
 ## Mental Model
 
-- Du lieu dang o dang nao truoc plugin chinh?
-- Plugin nay bien doi du lieu hay chi dieu phoi?
-- Control-plane message nao can theo doi tren bus?
+- Dữ liệu đang ở dạng nào trước plugin chính?
+- Plugin này biến đổi dữ liệu hay chỉ điều phối?
+- Control-plane message nào cần theo dõi trên bus?
 
 ## Implementation Checklist
 
-1. Kiem tra input.
+1. Kiểm tra input.
 2. `Gst.init(None)`.
-3. Tao pipeline va element can thiet.
-4. Set property can thiet.
+3. Tạo pipeline và element cần thiết.
+4. Set property cần thiết.
 5. `pipeline.add(...)`.
-6. Link static pads va request pads neu can.
-7. Tao bus watch va `GLib.MainLoop()`.
+6. Link static pads và request pads nếu cần.
+7. Tạo bus watch và `GLib.MainLoop()`.
 8. `pipeline.set_state(Gst.State.PLAYING)`.
-9. Cleanup bang `Gst.State.NULL`.
+9. Cleanup bằng `Gst.State.NULL`.
 
 ## Common Failure Modes
 
-- Input hoac config khong ton tai.
-- `Gst.ElementFactory.make(...)` tra ve `None`.
-- Link that bai vi dung sai pad, sai caps, hoac thieu parser.
-- Bus khong duoc watch nen app khong xu ly `EOS`/`ERROR`.
+- Input hoặc config không tồn tại.
+- `Gst.ElementFactory.make(...)` trả về `None`.
+- Link thất bại vì dùng sai pad, sai caps, hoặc thiếu parser.
+- Bus không được watch nên app không xử lý `EOS`/`ERROR`.
 
 ## Self-Check
 
-- Ban co the tu ve lai pipeline khong?
-- Du lieu dang o dang nao truoc/sau plugin chinh?
-- Neu bo mot buoc, dieu gi se hong dau tien?
+- Bạn có thể tự vẽ lại pipeline không?
+- Dữ liệu đang ở dạng nào trước/sau plugin chính?
+- Nếu bỏ một bước, điều gì sẽ hỏng đầu tiên?
 
 ## Extensions
 
-- Extension co ban:
-- Extension nang hon nhung van trong boundary:
+- Extension cơ bản:
+- Extension nâng hơn nhưng vẫn trong boundary:

@@ -15,17 +15,17 @@ này trước khi mở `03_starter.py`.
 Đây là bài học bản lề giữa GStreamer nền tảng và DeepStream "thật sự". Rất nhiều
 người mới học hay hỏi: "Chỉ có 1 source thì cần gì `nvstreammux`?" Câu trả lời là:
 
-- Trong DeepStream, `nvstreammux` la diem vao chuan cua nhieu plugin phia sau.
-- No tao ra batched buffer, ke ca khi `batch-size=1`.
-- No day ban vao mot kieu suy nghi moi: khong chi link element, ma con phai hieu
-  request pad va config batching.
+- Trong DeepStream, `nvstreammux` là điểm vào chuẩn của nhiều plugin phía sau.
+- Nó tạo ra batched buffer, kể cả khi `batch-size=1`.
+- Nó đẩy bạn vào một kiểu suy nghĩ mới: không chỉ link element, mà còn phải hiểu
+  request pad và config batching.
 
 ## Mental Model
 
 ### Trước `nvstreammux`
 
 - Sau `nvv4l2decoder`, bạn đang có frame video đã giải mã.
-- `decoder` co `src` static pad co the lay bang `get_static_pad("src")`.
+- `decoder` có `src` static pad có thể lấy bằng `get_static_pad("src")`.
 
 ### Tại `nvstreammux`
 
@@ -43,7 +43,7 @@ người mới học hay hỏi: "Chỉ có 1 source thì cần gì `nvstreammux`
 
 1. Parse input và kiểm tra file tồn tại.
 2. `Gst.init(None)`.
-3. Tao `filesrc`, `h264parse`, `nvv4l2decoder`, `nvstreammux`, `fakesink`.
+3. Tạo `filesrc`, `h264parse`, `nvv4l2decoder`, `nvstreammux`, `fakesink`.
 4. Set property:
    - `source.location`
    - `streammux.batch-size = 1`
@@ -53,7 +53,7 @@ người mới học hay hỏi: "Chỉ có 1 source thì cần gì `nvstreammux`
 5. Add tất cả element vào pipeline.
 6. Link static chain: `filesrc -> h264parse -> nvv4l2decoder`.
 7. Xin request pad: `streammux.request_pad_simple("sink_0")`.
-8. Lay `decoder.get_static_pad("src")`.
+8. Lấy `decoder.get_static_pad("src")`.
 9. Link `decoder.src -> streammux.sink_0`.
 10. Link `streammux -> fakesink`.
 11. Tạo bus watch, `GLib.MainLoop()`, chờ pipeline `PLAYING`.

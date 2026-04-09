@@ -1,18 +1,18 @@
 # Lesson 02 Extensions
 
-## Co ban
+## Cơ bản
 
-1. Bo `h264parse` va chay lai.
-   - Quan sat: decoder bao loi gi, hoac pipeline hong theo cach nao?
-2. Doi `fakesink` thanh sink hien thi.
-   - Quan sat: ban co nhin thay ket qua decode khong?
-3. In them ten tung element truoc khi link.
-   - Quan sat: moi cap link dang noi 2 dau nao?
+1. Bỏ `h264parse` và chạy lại.
+   - Quan sát: decoder báo lỗi gì, hoặc pipeline hỏng theo cách nào?
+2. Đổi `fakesink` thành sink hiển thị.
+   - Quan sát: bạn có nhìn thấy kết quả decode không?
+3. In thêm tên từng element trước khi link.
+   - Quan sát: mỗi cặp link đang nối 2 đầu nào?
 
-## Nang hon nhung van trong boundary lesson
+## Nâng hơn nhưng vẫn trong boundary lesson
 
-1. Gan probe vao `decoder.src`.
-   - Quan sat: du lieu sau decoder con la H264 elementary stream nua khong?
-2. Thu voi input khong phai H264 elementary stream.
-   - Quan sat: loi bat dau xuat hien o parser, decoder, hay som hon?
-3. In caps o `decoder.src` neu ban muon tu kiem chung mental model cua bai nay.
+1. Gắn probe vào `decoder.src`.
+   - Quan sát: dữ liệu sau decoder còn là H264 elementary stream nữa không?
+2. Thử với input không phải H264 elementary stream.
+   - Quan sát: lỗi bắt đầu xuất hiện ở parser, decoder, hay sớm hơn?
+3. In caps ở `decoder.src` nếu bạn muốn tự kiểm chứng mental model của bài này.

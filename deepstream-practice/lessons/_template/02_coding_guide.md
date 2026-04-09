@@ -1,47 +1,47 @@
 # Coding Guide Template
 
-Dung file nay de day nguoi hoc "code bai nay nhu the nao" theo trinh tu thuc hanh.
+Dùng file này để dạy người học "code bài này như thế nào" theo trình tự thực hành.
 
 ## Before You Code
 
-- File nay nhan input gi?
-- Chay bang lenh nao?
-- Can import gi va import do dung de lam gi?
+- File này nhận input gì?
+- Chạy bằng lệnh nào?
+- Cần import gì và import đó dùng để làm gì?
 
 ## Build Order
 
-1. Viet callback va helper nao truoc?
-2. Trong `main(args)`, parse input the nao?
-3. Tao pipeline/element o dau?
-4. Set property o dau?
-5. Add/link o dau?
-6. Bus/main loop/state transition o dau?
+1. Viết callback và helper nào trước?
+2. Trong `main(args)`, parse input thế nào?
+3. Tạo pipeline/element ở đâu?
+4. Set property ở đâu?
+5. Add/link ở đâu?
+6. Bus/main loop/state transition ở đâu?
 
 ## Function-By-Function Walkthrough
 
 ### `on_message(...)`
 
-- Ham nay duoc goi khi nao?
-- Tham so nao quan trong trong lesson nay?
-- Ban can xu ly nhung `MessageType` nao?
+- Hàm này được gọi khi nào?
+- Tham số nào quan trọng trong lesson này?
+- Bạn cần xử lý những `MessageType` nào?
 
 ### `main(args)`
 
-- `args` den tu dau?
-- Thu tu viet tung block la gi?
-- Sau moi block, ban nen kiem tra dieu gi?
+- `args` đến từ đâu?
+- Thứ tự viết từng block là gì?
+- Sau mỗi block, bạn nên kiểm tra điều gì?
 
 ### Helper functions
 
-- Neu co `make_element(...)`, giai thich vi sao nen tach ra.
-- Neu co helper pad/probe, giai thich no tra ve gi va duoc goi o dau.
+- Nếu có `make_element(...)`, giải thích vì sao nên tách ra.
+- Nếu có helper pad/probe, giải thích nó trả về gì và được gọi ở đâu.
 
 ## Syntax Notes
 
-- Ham nao tra ve element?
-- Ham nao tra ve pad?
-- Ham nao tra ve bool?
-- Ham nao khong tra ve gia tri ban can dung tiep?
+- Hàm nào trả về element?
+- Hàm nào trả về pad?
+- Hàm nào trả về bool?
+- Hàm nào không trả về giá trị bạn cần dùng tiếp?
 
 ## Starter Mapping
 
@@ -49,10 +49,10 @@ Dung file nay de day nguoi hoc "code bai nay nhu the nao" theo trinh tu thuc han
 - `TODO 2`:
 - `TODO 3`:
 
-Mac dinh, hay map truc tiep sang `03_starter.py`.
+Mặc định, hãy map trực tiếp sang `03_starter.py`.
 
 ## Mini Checkpoints
 
-- Sau block tao element, ban phai co gi trong tay?
-- Sau block link, pipeline da noi xong den dau?
-- Sau block bus/main loop, app da san sang `PLAYING` chua?
+- Sau block tạo element, bạn phải có gì trong tay?
+- Sau block link, pipeline đã nối xong đến đâu?
+- Sau block bus/main loop, app đã sẵn sàng `PLAYING` chưa?

@@ -1,19 +1,19 @@
 # Lesson 03 Extensions
 
-## Co ban
+## Cơ bản
 
-1. Doi `batch-size` thanh 2 trong khi van chi co 1 source.
-   - Quan sat: ban nghi muxer se cho dieu gi, va log cho ban dau hieu nao?
-2. In ra `batch-size`, `width`, `height`, `batched-push-timeout` truoc khi PLAYING.
-   - Quan sat: ban da cau hinh muxer dung theo y dinh chua?
-3. Thu doi `width` va `height`.
-   - Quan sat: muxer dang chuan bi output frame size theo cach nao?
+1. Đổi `batch-size` thành 2 trong khi vẫn chỉ có 1 source.
+   - Quan sát: bạn nghĩ muxer sẽ chờ điều gì, và log cho bạn dấu hiệu nào?
+2. In ra `batch-size`, `width`, `height`, `batched-push-timeout` trước khi PLAYING.
+   - Quan sát: bạn đã cấu hình muxer đúng theo ý định chưa?
+3. Thử đổi `width` và `height`.
+   - Quan sát: muxer đang chuẩn bị output frame size theo cách nào?
 
-## Nang hon nhung van trong boundary lesson
+## Nâng hơn nhưng vẫn trong boundary lesson
 
-1. Them source thu hai va request them `sink_1`.
-   - Quan sat: workflow request pad thay doi nhu the nao khi so source tang len?
-2. Co y request sai ten pad.
-   - Quan sat: loi xuat hien o luc nao, va bai hoc o day la gi?
-3. Giai thich bang loi cua ban vi sao `nvstreammux` van can mat trong bai 1 source,
-   thay vi tra loi theo kieu "sample cua NVIDIA viet the".
+1. Thêm source thứ hai và request thêm `sink_1`.
+   - Quan sát: workflow request pad thay đổi như thế nào khi số source tăng lên?
+2. Cố ý request sai tên pad.
+   - Quan sát: lỗi xuất hiện ở lúc nào, và bài học ở đây là gì?
+3. Giải thích bằng lời của bạn vì sao `nvstreammux` vẫn cần mặt trong bài 1 source,
+   thay vì trả lời theo kiểu "sample của NVIDIA viết thế".

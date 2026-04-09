@@ -1,13 +1,13 @@
 # Extensions
 
-## Co ban
+## Cơ bản
 
-1. Doi mot property quan trong trong lesson va du doan truoc dieu gi se xay ra.
-2. Them log de xac nhan gia thuyet cua ban.
-3. Viet 3-5 dong ket luan sau khi chay.
+1. Đổi một property quan trọng trong lesson và dự đoán trước điều gì sẽ xảy ra.
+2. Thêm log để xác nhận giả thuyết của bạn.
+3. Viết 3-5 dòng kết luận sau khi chạy.
 
-## Nang hon nhung van trong boundary lesson
+## Nâng hơn nhưng vẫn trong boundary lesson
 
-1. Thu bo mot element hoac mot buoc setup de xem pipeline hong o dau.
-2. Them mot probe hoac them log state/caps de thay ro hon dong chay du lieu.
-3. Giai thich bang loi cua ban tai sao thay doi do hop le hoac khong hop le.
+1. Thử bỏ một element hoặc một bước setup để xem pipeline hỏng ở đâu.
+2. Thêm một probe hoặc thêm log state/caps để thấy rõ hơn dòng chảy dữ liệu.
+3. Giải thích bằng lời của bạn tại sao thay đổi đó hợp lệ hoặc không hợp lệ.
