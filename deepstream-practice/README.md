@@ -65,15 +65,35 @@ Nếu bạn muốn tạo lesson mới, tham khảo `lessons/_template/00_README.
 15. `lessons/03_streammux_single_source/04_extensions.md`
 16. `lessons/03_streammux_single_source/05_reference.py`
 17. `notes/01_pipeline_flow.md`
-18. `exercises/04_primary_infer.py`
-19. `notes/02_infer_config_breakdown.md`
-20. `exercises/05_probe_batch_meta.py`
-21. `notes/03_metadata_flow.md`
-22. `exercises/06_osd_overlay_counts.py`
-23. `exercises/07_config_variants/pgie_trafficcamnet.txt`
-24. `exercises/08_multisource_batching.py`
-25. `exercises/09_rtsp_source_walkthrough.py`
-26. `exercises/10_pipeline_debug_checklist.md`
+18. `lessons/04_primary_infer/01_guide.md`
+19. `lessons/04_primary_infer/02_coding_guide.md`
+20. `lessons/04_primary_infer/03_starter.py`
+21. `lessons/04_primary_infer/04_extensions.md`
+22. `lessons/04_primary_infer/05_reference.py`
+23. `notes/02_infer_config_breakdown.md`
+24. `lessons/05_probe_batch_meta/01_guide.md`
+25. `lessons/05_probe_batch_meta/02_coding_guide.md`
+26. `lessons/05_probe_batch_meta/03_starter.py`
+27. `lessons/05_probe_batch_meta/04_extensions.md`
+28. `lessons/05_probe_batch_meta/05_reference.py`
+29. `notes/03_metadata_flow.md`
+30. `lessons/06_osd_overlay_counts/01_guide.md`
+31. `lessons/06_osd_overlay_counts/02_coding_guide.md`
+32. `lessons/06_osd_overlay_counts/03_starter.py`
+33. `lessons/06_osd_overlay_counts/04_extensions.md`
+34. `lessons/06_osd_overlay_counts/05_reference.py`
+35. `exercises/07_config_variants/pgie_trafficcamnet.txt`
+36. `lessons/08_multisource_batching/01_guide.md`
+37. `lessons/08_multisource_batching/02_coding_guide.md`
+38. `lessons/08_multisource_batching/03_starter.py`
+39. `lessons/08_multisource_batching/04_extensions.md`
+40. `lessons/08_multisource_batching/05_reference.py`
+41. `lessons/09_rtsp_source_walkthrough/01_guide.md`
+42. `lessons/09_rtsp_source_walkthrough/02_coding_guide.md`
+43. `lessons/09_rtsp_source_walkthrough/03_starter.py`
+44. `lessons/09_rtsp_source_walkthrough/04_extensions.md`
+45. `lessons/09_rtsp_source_walkthrough/05_reference.py`
+46. `exercises/10_pipeline_debug_checklist.md`
 
 ## Cách học hiệu quả
 
@@ -93,7 +113,7 @@ Nhiều lesson và exercise ở đây nhận một đường dẫn đến luồn
 python3 lessons/02_decode_chain/05_reference.py /path/to/sample_1080p_h264.h264
 ```
 
-Nếu bạn muốn dùng RTSP, học đến `exercises/09_rtsp_source_walkthrough.py` trước
+Nếu bạn muốn dùng RTSP, học đến `lessons/09_rtsp_source_walkthrough/05_reference.py` trước
 khi đổi source.
 
 ## Quy ước

@@ -8,7 +8,7 @@ này trước khi mở `03_starter.py`.
 - Pipeline: `filesrc -> h264parse -> nvv4l2decoder -> nvstreammux -> fakesink`
 - Input: một file H264 elementary stream
 - Expected outcome: tự nối được `decoder.src` vào request pad `sink_0` của
-  `nvstreammux`, sau đó cho muxer đẩy batched buffer xuống sink
+`nvstreammux`, sau đó cho muxer đẩy batched buffer xuống sink
 
 ## Why It Matters
 
@@ -18,7 +18,7 @@ người mới học hay hỏi: "Chỉ có 1 source thì cần gì `nvstreammux`
 - Trong DeepStream, `nvstreammux` là điểm vào chuẩn của nhiều plugin phía sau.
 - Nó tạo ra batched buffer, kể cả khi `batch-size=1`.
 - Nó đẩy bạn vào một kiểu suy nghĩ mới: không chỉ link element, mà còn phải hiểu
-  request pad và config batching.
+request pad và config batching.
 
 ## Mental Model
 
@@ -45,11 +45,11 @@ người mới học hay hỏi: "Chỉ có 1 source thì cần gì `nvstreammux`
 2. `Gst.init(None)`.
 3. Tạo `filesrc`, `h264parse`, `nvv4l2decoder`, `nvstreammux`, `fakesink`.
 4. Set property:
-   - `source.location`
-   - `streammux.batch-size = 1`
-   - `streammux.width`, `streammux.height`
-   - `streammux.batched-push-timeout`
-   - `sink.sync = False`
+  - `source.location`
+  - `streammux.batch-size = 1`
+  - `streammux.width`, `streammux.height`
+  - `streammux.batched-push-timeout`
+  - `sink.sync = False`
 5. Add tất cả element vào pipeline.
 6. Link static chain: `filesrc -> h264parse -> nvv4l2decoder`.
 7. Xin request pad: `streammux.request_pad_simple("sink_0")`.
@@ -62,22 +62,22 @@ người mới học hay hỏi: "Chỉ có 1 source thì cần gì `nvstreammux`
 ## Common Failure Modes
 
 - Quên request pad:
-  `nvstreammux` không có một sink pad cố định duy nhất cho bạn link tự động.
+`nvstreammux` không có một sink pad cố định duy nhất cho bạn link tự động.
 - Dùng sai tên pad, ví dụ `sink0` thay vì `sink_0`:
-  request pad sẽ thất bại.
+request pad sẽ thất bại.
 - Chưa lấy được `decoder.src` static pad:
-  có thể element chưa tạo đúng hoặc gọi sai tên pad.
+có thể element chưa tạo đúng hoặc gọi sai tên pad.
 - Hiểu nhầm `batch-size=1` là "không cần mux":
-  trong DeepStream, mux vẫn là entry point quan trọng của phần sau.
+trong DeepStream, mux vẫn là entry point quan trọng của phần sau.
 
 ## Self-Check
 
 1. Tại sao `nvstreammux` dùng request pad thay vì chỉ có 1 sink pad cố định?
 2. `decoder.get_static_pad("src")` và `streammux.request_pad_simple("sink_0")`
-   khác nhau ở điểm nào?
+  khác nhau ở điểm nào?
 3. Vì sao DeepStream vẫn cần mux dù chỉ có 1 source?
 4. `width`, `height`, `batched-push-timeout` đang tác động lên output theo ý nghĩa
-   khái niệm nào?
+  khái niệm nào?
 
 ## Extensions
 
@@ -85,3 +85,4 @@ người mới học hay hỏi: "Chỉ có 1 source thì cần gì `nvstreammux`
 - Thêm source thứ hai và request thêm `sink_1`.
 - Thử đổi `width`/`height` và quan sát output của muxer thay đổi theo cách nào.
 - Vẽ lại pipeline bằng tay, nhấn mạnh đoạn request pad và đoạn static pad.
+

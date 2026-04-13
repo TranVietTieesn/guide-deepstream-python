@@ -5,11 +5,11 @@ Exercise 02: Decode chain.
 Pipeline:
     filesrc -> h264parse -> nvv4l2decoder -> fakesink
 
-Muc tieu:
-- Hieu video encoded vao parser/decode ra sao.
-- Hieu vi sao sample goc tach parser va decoder.
+Mục tiêu:
+- Hiểu video encoded vào parser/decode ra sao.
+- Hiểu vì sao sample gốc tách parser và decoder.
 
-Cach chay:
+Cách chạy:
     python3 exercises/02_decode_chain.py /path/to/sample.h264
 """
 
@@ -38,7 +38,7 @@ def on_message(bus, message, loop):
 def make_element(factory_name, name):
     element = Gst.ElementFactory.make(factory_name, name)
     if not element:
-        raise RuntimeError(f"Khong tao duoc element: {factory_name}")
+        raise RuntimeError(f"Không tạo được element: {factory_name}")
     return element
 
 
@@ -67,11 +67,11 @@ def main(args):
         pipeline.add(element)
 
     if not source.link(parser):
-        raise RuntimeError("Khong link duoc filesrc -> h264parse")
+        raise RuntimeError("Không link được filesrc -> h264parse")
     if not parser.link(decoder):
-        raise RuntimeError("Khong link duoc h264parse -> nvv4l2decoder")
+        raise RuntimeError("Không link được h264parse -> nvv4l2decoder")
     if not decoder.link(sink):
-        raise RuntimeError("Khong link duoc nvv4l2decoder -> fakesink")
+        raise RuntimeError("Không link được nvv4l2decoder -> fakesink")
 
     bus = pipeline.get_bus()
     loop = GLib.MainLoop()
@@ -88,14 +88,14 @@ def main(args):
     finally:
         pipeline.set_state(Gst.State.NULL)
 
-    # TODO: Thu bo `h264parse` de thay vi sao decoder co the gap van de.
-    # TODO: Gan pad probe vao `decoder.src` va ghi chu xem du lieu sau decode
-    # dang la frame, khong con la H264 elementary stream nua.
-    # TODO: Thu doi `fakesink` thanh sink hien thi neu ban muon nhin ket qua.
+    # TODO: Thử bỏ `h264parse` để thấy vì sao decoder có thể gặp vấn đề.
+    # TODO: Gắn pad probe vào `decoder.src` và ghi chú xem dữ liệu sau decode
+    # đang là frame, không còn là H264 elementary stream nữa.
+    # TODO: Thử đổi `fakesink` thành sink hiển thị nếu bạn muốn nhìn kết quả.
     #
     # SELF-CHECK:
-    # - `filesrc` co hieu "video" khong hay chi doc byte?
-    # - `h264parse` va `nvv4l2decoder` khac nhau o vai tro nao?
+    # - `filesrc` có hiểu "video" không hay chỉ đọc byte?
+    # - `h264parse` và `nvv4l2decoder` khác nhau ở vai trò nào?
     return 0
 
 

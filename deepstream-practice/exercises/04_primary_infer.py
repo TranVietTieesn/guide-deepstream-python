@@ -6,11 +6,11 @@ Pipeline:
     filesrc -> h264parse -> nvv4l2decoder -> nvstreammux -> nvinfer
     -> nvvideoconvert -> nvdsosd -> sink
 
-Muc tieu:
-- Hieu `nvinfer` duoc cau hinh qua `config-file-path`.
-- Chay mot pipeline object detection toi thieu va doi chieu voi file goc.
+Mục tiêu:
+- Hiểu `nvinfer` được cấu hình qua `config-file-path`.
+- Chạy một pipeline object detection tối thiểu và đối chiếu với file gốc.
 
-Cach chay:
+Cách chạy:
     python3 exercises/04_primary_infer.py /path/to/sample.h264
 """
 
@@ -50,7 +50,7 @@ def on_message(bus, message, loop):
 def make_element(factory_name, name):
     element = Gst.ElementFactory.make(factory_name, name)
     if not element:
-        raise RuntimeError(f"Khong tao duoc element: {factory_name}")
+        raise RuntimeError(f"Không tạo được element: {factory_name}")
     return element
 
 
@@ -101,25 +101,25 @@ def main(args):
         pipeline.add(element)
 
     if not source.link(parser):
-        raise RuntimeError("Khong link duoc filesrc -> h264parse")
+        raise RuntimeError("Không link được filesrc -> h264parse")
     if not parser.link(decoder):
-        raise RuntimeError("Khong link duoc h264parse -> nvv4l2decoder")
+        raise RuntimeError("Không link được h264parse -> nvv4l2decoder")
 
     sinkpad = streammux.request_pad_simple("sink_0")
     srcpad = decoder.get_static_pad("src")
     if not sinkpad or not srcpad:
-        raise RuntimeError("Khong lay duoc pad de noi vao nvstreammux")
+        raise RuntimeError("Không lấy được pad để nối vào nvstreammux")
     if srcpad.link(sinkpad) != Gst.PadLinkReturn.OK:
-        raise RuntimeError("Khong link duoc decoder.src -> streammux.sink_0")
+        raise RuntimeError("Không link được decoder.src -> streammux.sink_0")
 
     if not streammux.link(pgie):
-        raise RuntimeError("Khong link duoc nvstreammux -> nvinfer")
+        raise RuntimeError("Không link được nvstreammux -> nvinfer")
     if not pgie.link(nvvidconv):
-        raise RuntimeError("Khong link duoc nvinfer -> nvvideoconvert")
+        raise RuntimeError("Không link được nvinfer -> nvvideoconvert")
     if not nvvidconv.link(nvosd):
-        raise RuntimeError("Khong link duoc nvvideoconvert -> nvdsosd")
+        raise RuntimeError("Không link được nvvideoconvert -> nvdsosd")
     if not nvosd.link(sink):
-        raise RuntimeError("Khong link duoc nvdsosd -> sink")
+        raise RuntimeError("Không link được nvdsosd -> sink")
 
     bus = pipeline.get_bus()
     loop = GLib.MainLoop()
@@ -137,13 +137,13 @@ def main(args):
     finally:
         pipeline.set_state(Gst.State.NULL)
 
-    # TODO: Doi sang file config variant trong `07_config_variants/`.
-    # TODO: Thay doi `pre-cluster-threshold` va quan sat bbox thay doi ra sao.
-    # TODO: In them `pgie.get_property("batch-size")` va doi chieu voi muxer.
+    # TODO: Đổi sang file config variant trong `07_config_variants/`.
+    # TODO: Thay đổi `pre-cluster-threshold` và quan sát bbox thay đổi ra sao.
+    # TODO: In thêm `pgie.get_property("batch-size")` và đối chiếu với muxer.
     #
     # SELF-CHECK:
-    # - `nvinfer` lay model o dau neu code chi truyen `config-file-path`?
-    # - Tai sao `nvstreammux` van nam truoc `nvinfer` trong bai 1 source?
+    # - `nvinfer` lấy model ở đâu nếu code chỉ truyền `config-file-path`?
+    # - Tại sao `nvstreammux` vẫn nằm trước `nvinfer` trong bài 1 source?
     return 0
 
 

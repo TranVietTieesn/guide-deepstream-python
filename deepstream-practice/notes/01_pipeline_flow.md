@@ -1,11 +1,11 @@
 # Pipeline Flow
 
-File goc `../../deepstream-test1.py` dung mot pipeline rat "kinh dien" de hoc
+File gốc `../../deepstream-test1.py` dùng một pipeline rất "kinh điển" để học
 DeepStream:
 
 `filesrc -> h264parse -> nvv4l2decoder -> nvstreammux -> nvinfer -> nvvideoconvert -> nvdsosd -> sink`
 
-## Nhin toan cuc
+## Nhìn toàn cục
 
 ```mermaid
 flowchart LR
@@ -19,108 +19,108 @@ flowchart LR
     osd -. "pad probe" .-> metaPath[NvDsBatchMeta_to_FrameMeta_to_ObjectMeta]
 ```
 
-## Vai tro tung plugin
+## Vai trò từng plugin
 
 ### `filesrc`
 
-- Doc byte tu file tren dia.
-- Chua hieu noi dung video; no chi biet lay du lieu tu file.
+- Đọc byte từ file trên đĩa.
+- Chưa hiểu nội dung video; nó chỉ biết lấy dữ liệu từ file.
 
 ### `h264parse`
 
-- Chuan hoa luong H264 truoc khi dua vao decoder.
-- Day la ly do trong file goc phai co parser truoc `nvv4l2decoder`.
+- Chuẩn hóa luồng H264 trước khi đưa vào decoder.
+- Đây là lý do trong file gốc phải có parser trước `nvv4l2decoder`.
 
 ### `nvv4l2decoder`
 
-- Dung hardware decoder cua NVIDIA de giai ma video.
-- Sau diem nay, du lieu khong con la luong H264 nen nua, ma la frame video.
+- Dùng hardware decoder của NVIDIA để giải mã video.
+- Sau điểm này, dữ liệu không còn là luồng H264 nén nữa, mà là frame video.
 
 ### `nvstreammux`
 
-Theo docs DeepStream, `nvstreammux` dung de tao mot batched buffer tu mot hoac
-nhieu source. Kể ca khi `batch-size=1`, no van la diem vao chuan cho nhieu
-plugin DeepStream phia sau.
+Theo docs DeepStream, `nvstreammux` dùng để tạo một batched buffer từ một hoặc
+nhiều source. Kể cả khi `batch-size=1`, nó vẫn là điểm vào chuẩn cho nhiều
+plugin DeepStream phía sau.
 
-Dieu quan trong can nho:
-- Day la request-pad based element.
-- Ban phai xin `sink_0`, `sink_1`, ... roi moi link source vao.
-- `batch-size` la so frame toi da trong mot batch.
-- `batched-push-timeout` quyet dinh cho bao lau truoc khi day batch xuong duoi.
-- `width` va `height` xac dinh kich thuoc output ma muxer dua ra.
+Điều quan trong can nhớ:
+- Đây là request-pad based element.
+- Bạn phải xin `sink_0`, `sink_1`, ... rồi mới link source vao.
+- `batch-size` là số frame tối đa trong một batch.
+- `batched-push-timeout` quyết định chờ bao lâu trước khi đẩy batch xuống dưới.
+- `width` và `height` xác định kích thước output mà muxer đưa ra.
 
 ### `nvinfer`
 
-Theo docs DeepStream, `nvinfer` la plugin dung TensorRT de chay suy luan. Plugin
-nay doc file config qua property `config-file-path`.
+Theo docs DeepStream, `nvinfer` là plugin dùng TensorRT để chạy suy luận. Plugin
+nay đọc file config qua property `config-file-path`.
 
-No la mot moc rat quan trong:
-- Code pipeline khong hard-code model chi tiet.
-- File config quyet dinh model nao, labels nao, engine nao, clustering nao.
-- Sau khi suy luan, metadata duoc gan vao buffer.
+Nó là một mốc rất quan trọng:
+- Code pipeline không hard-code model chi tiết.
+- File config quyết định model nào, labels nao, engine nào, clustering nao.
+- Sau khi suy luận, metadata được gắn vào buffer.
 
 ### `nvvideoconvert`
 
-- Chuyen doi dinh dang pixel / bo nho de plugin sau dung duoc.
-- Trong file goc, no dua du lieu ve dang hop voi `nvdsosd`.
+- Chuyển đổi định dạng pixel / bộ nhớ để plugin sau dung được.
+- Trong file gốc, nó đưa dữ liệu về dạng hợp voi `nvdsosd`.
 
 ### `nvdsosd`
 
-- Dung de ve bbox, text, overlay len frame.
-- Day cung la vi tri hop ly de gan pad probe va doc metadata da duoc suy luan.
+- Dùng để vẽ bbox, text, overlay lên frame.
+- Đây cũng là vị trí hợp lý để gắn pad probe và đọc metadata đã được suy luận.
 
 ### `sink`
 
-- Hien thi ket qua ra man hinh.
-- File goc chon sink tuy theo nen tang GPU.
+- Hiển thị kết quả ra màn hình.
+- File gốc chọn sink tùy theo nền tảng GPU.
 
-## Tai sao probe dat o `nvosd.sink`?
+## Tại sao probe đặt ở `nvosd.sink`?
 
-Vi tai diem do:
-- Frame da qua `nvinfer`.
-- Metadata detection da duoc gan vao buffer.
-- Chua qua OSD nen ban co the doc metadata va quyet dinh se ve gi.
+Vì tại điểm do:
+- Frame đã qua `nvinfer`.
+- Metadata detection da được gắn vào buffer.
+- Chưa qua OSD nên bạn có the đọc metadata và quyết định sẽ vẽ gì.
 
-Do la ly do file goc lam:
+Đó là lý do file gốc lam:
 - `osdsinkpad = nvosd.get_static_pad("sink")`
 - `osdsinkpad.add_probe(...)`
 
-## Khac nhau giua static pad va request pad
+## Khác nhau giữa static pad và request pad
 
 ### Static pad
 
-- La pad co san tren element.
-- Vi du: `decoder.get_static_pad("src")`, `nvosd.get_static_pad("sink")`.
+- Là pad có sẵn trên element.
+- Ví dụ: `decoder.get_static_pad("src")`, `nvosd.get_static_pad("sink")`.
 
 ### Request pad
 
-- La pad phai xin tu element khi can.
-- Vi du: `streammux.request_pad_simple("sink_0")`.
-- Kieu nay hop voi bai toan co so source thay doi theo runtime.
+- Là pad phải xin từ element khi cần.
+- Ví dụ: `streammux.request_pad_simple("sink_0")`.
+- Kiểu này hợp với bài toán có số source thay đổi theo runtime.
 
-## Pipeline lifecycle trong file goc
+## Pipeline lifecycle trong file gốc
 
 1. `Gst.init(None)`
 2. Tao element bang `Gst.ElementFactory.make(...)`
 3. `pipeline.add(...)`
-4. `link(...)` va request pad cho muxer
+4. `link(...)` và request pad cho muxer
 5. Tao `GLib.MainLoop()`
-6. Noi `bus_call` vao bus
+6. Nối `bus_call` vào bus
 7. Gan probe
 8. `pipeline.set_state(Gst.State.PLAYING)`
 9. `loop.run()`
-10. Ket thuc thi `pipeline.set_state(Gst.State.NULL)`
+10. Kết thúc thì `pipeline.set_state(Gst.State.NULL)`
 
 ## `# TODO`
 
-- Giai thich bang loi cua ban du lieu dang o dang nao ngay truoc va ngay sau
+- Giải thích bằng lời của bạn du lieu dang o dạng nào ngay trước và ngay sau
   `nvv4l2decoder`.
-- Giai thich vi sao `nvstreammux` khong phai chi danh cho multi-source.
-- Thu ve lai so do pipeline ma khong nhin file.
-- Gach chan plugin nao "tao metadata moi" trong pipeline nay.
+- Giải thích vì sao `nvstreammux` không phải chỉ dành cho multi-source.
+- Thử vẽ lại sơ đồ pipeline mà không nhìn file.
+- Gạch chân plugin nào "tạo metadata mới" trong pipeline này.
 
 ## SELF-CHECK
 
-- Neu bo `nvinfer`, probe con doc duoc `NvDsObjectMeta` khong? Vi sao?
-- Neu co 2 source, ban se phai xin them pad nao tren `nvstreammux`?
-- `width` va `height` cua muxer anh huong den dau ra nhu the nao?
+- Nếu bỏ `nvinfer`, probe còn đọc được `NvDsObjectMeta` không? Vì sao?
+- Nếu có 2 source, bạn sẽ phải xin thêm pad nào tren `nvstreammux`?
+- `width` và `height` của muxer ảnh hưởng đến đầu ra như the nao?

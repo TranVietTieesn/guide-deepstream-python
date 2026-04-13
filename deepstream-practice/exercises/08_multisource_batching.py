@@ -7,11 +7,11 @@ Pipeline:
     source1 -> h264parse -> nvv4l2decoder -> nvstreammux.sink_1
     nvstreammux -> nvinfer -> nvvideoconvert -> nvdsosd -> fakesink
 
-Muc tieu:
-- Hieu batching that su khi co nhieu source.
-- Doc `frame_meta.pad_index` de biet frame den tu source nao.
+Mục tiêu:
+- Hiểu batching thực sự khi có nhiều source.
+- Đọc `frame_meta.pad_index` để biết frame đến từ source nào.
 
-Cach chay:
+Cách chạy:
     python3 exercises/08_multisource_batching.py /path/to/a.h264 /path/to/b.h264
 """
 
@@ -53,7 +53,7 @@ def on_message(bus, message, loop):
 def make_element(factory_name, name):
     element = Gst.ElementFactory.make(factory_name, name)
     if not element:
-        raise RuntimeError(f"Khong tao duoc element: {factory_name}")
+        raise RuntimeError(f"Không tạo được element: {factory_name}")
     return element
 
 
@@ -135,16 +135,16 @@ def main(args):
         pipeline.add(decoder)
 
         if not source.link(parser):
-            raise RuntimeError(f"Khong link duoc source {index} -> parser")
+            raise RuntimeError(f"Không link được source {index} -> parser")
         if not parser.link(decoder):
-            raise RuntimeError(f"Khong link duoc parser {index} -> decoder")
+            raise RuntimeError(f"Không link được parser {index} -> decoder")
 
         sinkpad = streammux.request_pad_simple(f"sink_{index}")
         srcpad = decoder.get_static_pad("src")
         if not sinkpad or not srcpad:
-            raise RuntimeError(f"Khong lay duoc pad cho source {index}")
+            raise RuntimeError(f"Không lấy được pad cho source {index}")
         if srcpad.link(sinkpad) != Gst.PadLinkReturn.OK:
-            raise RuntimeError(f"Khong link duoc decoder {index} vao nvstreammux")
+            raise RuntimeError(f"Không link được decoder {index} vào nvstreammux")
 
     for upstream, downstream, label in (
         (streammux, pgie, "nvstreammux -> nvinfer"),
@@ -153,11 +153,11 @@ def main(args):
         (nvosd, sink, "nvdsosd -> fakesink"),
     ):
         if not upstream.link(downstream):
-            raise RuntimeError(f"Khong link duoc {label}")
+            raise RuntimeError(f"Không link được {label}")
 
     osd_sink_pad = nvosd.get_static_pad("sink")
     if not osd_sink_pad:
-        raise RuntimeError("Khong lay duoc nvosd sink pad")
+        raise RuntimeError("Không lấy được nvosd sink pad")
     osd_sink_pad.add_probe(Gst.PadProbeType.BUFFER, osd_sink_pad_buffer_probe, None)
 
     bus = pipeline.get_bus()
@@ -175,13 +175,13 @@ def main(args):
     finally:
         pipeline.set_state(Gst.State.NULL)
 
-    # TODO: Thu dung cung 1 file cho ca hai source va xem `pad_index` thay doi the nao.
-    # TODO: Thu doi `batch-size` sai khac voi so source va doc log / hanh vi.
-    # TODO: In them tong object theo tung `pad_index`.
+    # TODO: Thử dùng cùng 1 file cho cả hai source và xem `pad_index` thay đổi thế nào.
+    # TODO: Thử đổi `batch-size` sai khác với số source và đọc log / hành vi.
+    # TODO: In thêm tổng object theo từng `pad_index`.
     #
     # SELF-CHECK:
-    # - `pad_index` giup ban biet dieu gi?
-    # - Vi sao bai multi-source can request `sink_0`, `sink_1`, ...?
+    # - `pad_index` giúp bạn biết điều gì?
+    # - Vì sao bài multi-source cần request `sink_0`, `sink_1`, ...?
     return 0
 
 

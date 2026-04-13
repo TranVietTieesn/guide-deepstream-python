@@ -2,16 +2,16 @@
 """
 Exercise 01: GStreamer bootstrap.
 
-Muc tieu:
-- Hieu bo khung toi thieu cua mot app GStreamer.
-- Hieu `Gst.init`, `Pipeline`, bus, main loop, state transition.
+Mục tiêu:
+- Hiểu bộ khung tối thiểu của một app GStreamer.
+- Hiểu `Gst.init`, `Pipeline`, bus, main loop, state transition.
 
-Cach chay:
+Cách chạy:
     python3 exercises/01_gst_bootstrap.py /path/to/any-file
 
 WHY IT MATTERS:
-- DeepStream duoc xay tren GStreamer. Neu ban chua nhin ro bo khung nay,
-  cac plugin DeepStream o bai sau se rat kho "vao dau".
+- DeepStream được xây trên GStreamer. Nếu bạn chưa nhìn rõ bộ khung này,
+  các plugin DeepStream ở bài sau sẽ rất khó "vào đầu".
 """
 
 import os
@@ -27,7 +27,7 @@ def on_message(bus, message, loop):
     message_type = message.type
 
     if message_type == Gst.MessageType.EOS:
-        print("EOS: pipeline da doc het du lieu.")
+        print("EOS: pipeline đã đọc hết dữ liệu.")
         loop.quit()
     elif message_type == Gst.MessageType.ERROR:
         err, debug = message.parse_error()
@@ -67,7 +67,7 @@ def main(args):
     sink = Gst.ElementFactory.make("fakesink", "fake-sink")
 
     if not pipeline or not source or not sink:
-        print("Khong tao duoc pipeline hoac element.", file=sys.stderr)
+        print("Không tạo được pipeline hoặc element.", file=sys.stderr)
         return 1
 
     source.set_property("location", input_path)
@@ -76,7 +76,7 @@ def main(args):
     pipeline.add(sink)
 
     if not source.link(sink):
-        print("Khong link duoc filesrc -> fakesink", file=sys.stderr)
+        print("Không link được filesrc -> fakesink", file=sys.stderr)
         return 1
 
     bus = pipeline.get_bus()
@@ -84,24 +84,24 @@ def main(args):
     bus.add_signal_watch()
     bus.connect("message", on_message, loop)
 
-    print("Bat dau PLAYING")
+    print("Bắt đầu PLAYING")
     pipeline.set_state(Gst.State.PLAYING)
 
     try:
         loop.run()
     except KeyboardInterrupt:
-        print("Dung boi nguoi dung.")
+        print("Dừng bởi người dùng.")
     finally:
-        print("Tra pipeline ve NULL")
+        print("Trả pipeline về NULL")
         pipeline.set_state(Gst.State.NULL)
 
-    # TODO: In ra ten tung element trong pipeline bang pipeline.iterate_elements().
-    # TODO: Thu bo bus watch va xem app con biet EOS/ERROR khong.
-    # TODO: Thu doi `fakesink` thanh `filesink` de thay luong byte di qua pipeline.
+    # TODO: In ra tên từng element trong pipeline bằng pipeline.iterate_elements().
+    # TODO: Thử bỏ bus watch và xem app còn biết EOS/ERROR không.
+    # TODO: Thử đổi `fakesink` thành `filesink` để thấy lượng byte đi qua pipeline.
     #
     # SELF-CHECK:
-    # - Tai sao app can `GLib.MainLoop()`?
-    # - `set_state(Gst.State.NULL)` giai phong dieu gi o muc khai niem?
+    # - Tại sao app cần `GLib.MainLoop()`?
+    # - `set_state(Gst.State.NULL)` giải phóng điều gì ở mức khái niệm?
     return 0
 
 

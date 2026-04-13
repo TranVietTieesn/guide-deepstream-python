@@ -34,7 +34,7 @@ def make_element(factory_name, name):
     element = Gst.ElementFactory.make(factory_name, name)
     if not element:
         print(f"Khong tao duoc element {factory_name}")
-        return 1
+        return None
     return element
 
 def main(args):
@@ -83,5 +83,6 @@ def main(args):
     pipeline.set_state(Gst.State.PLAYING)
     loop.run()
     pipeline.set_state(Gst.State.NULL)
+
 if __name__ == "__main__":
     raise SystemExit(main(sys.argv))

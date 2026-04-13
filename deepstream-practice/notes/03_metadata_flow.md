@@ -1,79 +1,79 @@
 # Metadata Flow
 
-Day la phan quan trong nhat de ban that su "doc duoc DeepStream".
+Đây là phần quan trọng nhất để bạn thật sự "đọc được DeepStream".
 
-Neu chi chay pipeline va nhin bbox tren man hinh, ban moi thay ket qua. Neu ban
-doc duoc metadata, ban moi that su hieu plugin nao da dua thong tin gi vao
-buffer, va ban co the mo rong sang analytics, dem doi tuong, canh bao, luu su
-kien.
+Nếu chỉ chạy pipeline và nhìn bbox trên màn hình, bạn mới thấy kết quả. Nếu bạn
+đọc được metadata, bạn mới thật sự hiểu plugin nào đã đưa thông tin gì vào
+buffer, và bạn có thể mở rộng sang analytics, đếm đối tượng, cảnh báo, lưu sự
+kiện.
 
-## Chuoi metadata trong file goc
+## Chuỗi metadata trong file gốc
 
-Trong `../../deepstream-test1.py`, probe o `nvosd.sink` doc metadata theo chuoi:
+Trong `../../deepstream-test1.py`, probe ở `nvosd.sink` đọc metadata theo chuỗi:
 
 `Gst.Buffer -> NvDsBatchMeta -> NvDsFrameMeta -> NvDsObjectMeta`
 
-## Metadata xuat hien tu dau?
+## Metadata xuất hiện từ đâu?
 
-Trong pipeline nay, metadata detection xuat hien sau `nvinfer`.
+Trong pipeline này, metadata detection xuất hiện sau `nvinfer`.
 
-Nghia la:
-- `filesrc`, `h264parse`, `nvv4l2decoder`, `nvstreammux` chu yeu chuan bi data.
-- `nvinfer` them thong tin object detection vao buffer.
-- Probe cua ban doc lai metadata do.
+Nghĩa là:
+- `filesrc`, `h264parse`, `nvv4l2decoder`, `nvstreammux` chủ yếu chuẩn bị data.
+- `nvinfer` thêm thông tin object detection vào buffer.
+- Probe của bạn đọc lại metadata đó.
 
-## Tai sao dung `hash(gst_buffer)`?
+## Tại sao dùng `hash(gst_buffer)`?
 
-Theo mau Python DeepStream, `pyds.gst_buffer_get_nvds_batch_meta()` can dia chi C
-cua `GstBuffer`. Trong binding Python, `hash(gst_buffer)` duoc dung de lay gia tri
-dia chi phu hop cho ham nay.
+Theo mẫu Python DeepStream, `pyds.gst_buffer_get_nvds_batch_meta()` cần địa chỉ C
+của `GstBuffer`. Trong binding Python, `hash(gst_buffer)` được dùng để lấy giá trị
+địa chỉ phù hợp cho hàm này.
 
-Hay nho:
-- Ban khong truyen "noi dung buffer".
-- Ban truyen handle / dia chi cua buffer de `pyds` tim metadata gan kem.
+Hãy nhớ:
+- Bạn không truyền "nội dung buffer".
+- Bạn truyền handle / địa chỉ của buffer để `pyds` tìm metadata gắn kèm.
 
-## Tai sao phai `.cast()`?
+## Tại sao phải `.cast()`?
 
-Metadata list duoc dua ve duoi dang node tong quat.
+Metadata list được đưa về dưới dạng node tổng quát.
 
-Vi vay ban phai:
+Vì vậy bạn phải:
 - `pyds.NvDsFrameMeta.cast(l_frame.data)`
 - `pyds.NvDsObjectMeta.cast(l_obj.data)`
 
-Neu khong cast:
-- Python khong biet node do phai duoc doc nhu kieu nao.
-- Ban khong truy cap duoc field chuyen biet nhu `frame_num`, `num_obj_meta`,
+Nếu không cast:
+- Python không biết node đó phải được đọc như kiểu nào.
+- Bạn không truy cập được field chuyên biệt như `frame_num`, `num_obj_meta`,
   `class_id`, `rect_params`.
 
-## Memory ownership: cho nay rat de "mo ho"
+## Memory ownership: chỗ này rất dễ "mơ hồ"
 
-Trong sample DeepStream Python, comment nhan manh rang:
-- Metadata object nam o phia C.
-- Python binding chi wrap lai.
-- Garbage collector Python khong so huu bo nho do.
+Trong sample DeepStream Python, comment nhấn mạnh rằng:
+- Metadata object nằm ở phía C.
+- Python binding chỉ wrap lại.
+- Garbage collector Python không sở hữu bộ nhớ đó.
 
-Y nghia thuc te:
-- Ban khong nen tu y giai phong.
-- Ban can dung cac API `pyds` dung cach.
-- Khi tao display meta, thuong phai xin tu pool bang
+Ý nghĩa thực tế:
+- Bạn không nên tự ý giải phóng.
+- Bạn cần dùng các API `pyds` đúng cách.
+- Khi tạo display meta, thường phải xin từ pool bằng
   `nvds_acquire_display_meta_from_pool(batch_meta)`.
 
-## Duyet metadata list nhu the nao?
+## Duyệt metadata list như thế nào?
 
-### Tang batch
+### Tầng batch
 
-- Mot buffer co the chua batch cua nhieu frame.
-- `batch_meta.frame_meta_list` la danh sach frame trong batch.
+- Một buffer có thể chứa batch của nhiều frame.
+- `batch_meta.frame_meta_list` là danh sách frame trong batch.
 
-### Tang frame
+### Tầng frame
 
-- Moi `NvDsFrameMeta` dai dien cho 1 frame.
-- Trong do co `frame_num`, `num_obj_meta`, `obj_meta_list`.
+- Mỗi `NvDsFrameMeta` đại diện cho 1 frame.
+- Trong đó có `frame_num`, `num_obj_meta`, `obj_meta_list`.
 
-### Tang object
+### Tầng object
 
-- Moi `NvDsObjectMeta` dai dien cho 1 object detect duoc.
-- Ban co the doc:
+- Mỗi `NvDsObjectMeta` đại diện cho 1 object detect được.
+- Bạn có thể đọc:
   - `class_id`
   - `confidence`
   - `rect_params.left`
@@ -81,52 +81,52 @@ Y nghia thuc te:
   - `rect_params.width`
   - `rect_params.height`
 
-## Tu metadata sang overlay
+## Từ metadata sang overlay
 
-File goc lam 2 viec trong cung probe:
+File gốc làm 2 việc trong cùng probe:
 
-1. Doc metadata object de dem object.
-2. Tao `NvDsDisplayMeta` de dua text overlay len frame.
+1. Đọc metadata object để đếm object.
+2. Tạo `NvDsDisplayMeta` để đưa text overlay lên frame.
 
-Do la mot pattern rat pho bien:
+Đó là một pattern rất phổ biến:
 - infer -> metadata
 - probe -> business logic
 - OSD -> visualize logic
 
-## Nhung diem hay nham lan
+## Những điểm hay nhầm lẫn
 
-### Nham lan 1: Probe la noi tao metadata
+### Nhầm lẫn 1: Probe là nơi tao metadata
 
-Sai. Probe khong phai noi tao detection metadata.
+Sai. Probe không phải nơi tạo detection metadata.
 
 Probe:
-- doc,
-- sua,
-- them metadata / display meta moi neu muon.
+- đọc,
+- sửa,
+- thêm metadata / display meta mới nếu muốn.
 
-Con detection metadata o bai nay den tu `nvinfer`.
+Còn detection metadata ở bài này đến từ `nvinfer`.
 
-### Nham lan 2: `num_obj_meta` la tong object cua ca pipeline
+### Nhầm lẫn 2: `num_obj_meta` là tổng object của cả pipeline
 
-Sai. No la tong object cua frame hien tai.
+Sai. Nó là tổng object của frame hiện tại.
 
-Muon tong theo thoi gian:
-- ban phai tu tich luy o tang app.
+Muốn tổng theo thời gian:
+- bạn phải tự tích lũy ở tầng app.
 
-### Nham lan 3: Co bbox la chac chan co text overlay
+### Nhầm lẫn 3: Có bbox là chắc chắn có text overlay
 
-Sai. Bbox / object meta va display text la 2 lop khac nhau.
+Sai. Bbox / object meta và display text là 2 lớp khác nhau.
 
 ## `# TODO`
 
-- In them `confidence` cua tung object.
-- In them bbox va map `class_id` sang ten class.
-- Thu gan probe sang diem som hon trong pipeline va quan sat metadata co khac
-  khong.
-- Tu giai thich vi sao `nvosd.sink` la vi tri hoc tap tot.
+- In thêm `confidence` của từng object.
+- In thêm bbox và map `class_id` sang tên class.
+- Thử gắn probe sang điểm sớm hơn trong pipeline và quan sát metadata có khác
+  không.
+- Tự giải thích vì sao `nvosd.sink` là vị trí học tập tốt.
 
 ## SELF-CHECK
 
-- Neu batch-size = 2 thi `frame_meta_list` co the chua gi?
-- Vi sao sample phai dung `.cast()` thay vi doc truc tiep `l_frame.data`?
-- Ban se dat logic dem object tong theo 1 phut o probe hay o lop app cao hon?
+- Nếu batch-size = 2 thì `frame_meta_list` có thể chứa gì?
+- Vì sao sample phải dùng `.cast()` thay vì đọc trực tiếp `l_frame.data`?
+- Bạn sẽ đặt logic đếm object tổng theo 1 phút ở probe hay ở lớp app cao hơn?

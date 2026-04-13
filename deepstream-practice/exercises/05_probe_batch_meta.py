@@ -6,11 +6,11 @@ Pipeline:
     filesrc -> h264parse -> nvv4l2decoder -> nvstreammux -> nvinfer
     -> nvvideoconvert -> nvdsosd -> fakesink
 
-Muc tieu:
-- Hieu `Gst.Buffer -> NvDsBatchMeta -> NvDsFrameMeta -> NvDsObjectMeta`.
-- Hieu vi sao sample dung `hash(gst_buffer)` va `.cast()`.
+Mục tiêu:
+- Hiểu `Gst.Buffer -> NvDsBatchMeta -> NvDsFrameMeta -> NvDsObjectMeta`.
+- Hiểu vì sao sample dùng `hash(gst_buffer)` và `.cast()`.
 
-Cach chay:
+Cách chạy:
     python3 exercises/05_probe_batch_meta.py /path/to/sample.h264
 """
 
@@ -50,7 +50,7 @@ def on_message(bus, message, loop):
 def make_element(factory_name, name):
     element = Gst.ElementFactory.make(factory_name, name)
     if not element:
-        raise RuntimeError(f"Khong tao duoc element: {factory_name}")
+        raise RuntimeError(f"Không tạo được element: {factory_name}")
     return element
 
 
@@ -138,16 +138,16 @@ def main(args):
         pipeline.add(element)
 
     if not source.link(parser):
-        raise RuntimeError("Khong link duoc filesrc -> h264parse")
+        raise RuntimeError("Không link được filesrc -> h264parse")
     if not parser.link(decoder):
-        raise RuntimeError("Khong link duoc h264parse -> nvv4l2decoder")
+        raise RuntimeError("Không link được h264parse -> nvv4l2decoder")
 
     sinkpad = streammux.request_pad_simple("sink_0")
     srcpad = decoder.get_static_pad("src")
     if not sinkpad or not srcpad:
-        raise RuntimeError("Khong lay duoc pad de noi vao nvstreammux")
+        raise RuntimeError("Không lấy được pad để nối vào nvstreammux")
     if srcpad.link(sinkpad) != Gst.PadLinkReturn.OK:
-        raise RuntimeError("Khong link duoc decoder.src -> streammux.sink_0")
+        raise RuntimeError("Không link được decoder.src -> streammux.sink_0")
 
     for upstream, downstream, label in (
         (streammux, pgie, "nvstreammux -> nvinfer"),
@@ -156,11 +156,11 @@ def main(args):
         (nvosd, sink, "nvdsosd -> fakesink"),
     ):
         if not upstream.link(downstream):
-            raise RuntimeError(f"Khong link duoc {label}")
+            raise RuntimeError(f"Không link được {label}")
 
     osd_sink_pad = nvosd.get_static_pad("sink")
     if not osd_sink_pad:
-        raise RuntimeError("Khong lay duoc nvosd sink pad")
+        raise RuntimeError("Không lấy được nvosd sink pad")
     osd_sink_pad.add_probe(
         Gst.PadProbeType.BUFFER,
         osd_sink_pad_buffer_probe,
@@ -182,13 +182,13 @@ def main(args):
     finally:
         pipeline.set_state(Gst.State.NULL)
 
-    # TODO: Dem object theo `class_id`.
-    # TODO: Map `class_id` sang ten label bang labels file.
-    # TODO: Thu chuyen probe sang diem khac trong pipeline va quan sat metadata.
+    # TODO: Đếm object theo `class_id`.
+    # TODO: Map `class_id` sang tên label bằng labels file.
+    # TODO: Thử chuyển probe sang điểm khác trong pipeline và quan sát metadata.
     #
     # SELF-CHECK:
-    # - Metadata object detection xuat hien sau plugin nao?
-    # - Vi sao can `hash(gst_buffer)` khi goi `gst_buffer_get_nvds_batch_meta`?
+    # - Metadata object detection xuất hiện sau plugin nào?
+    # - Vì sao cần `hash(gst_buffer)` khi gọi `gst_buffer_get_nvds_batch_meta`?
     return 0
 
 

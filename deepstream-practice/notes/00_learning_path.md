@@ -1,35 +1,35 @@
 # Learning Path
 
-Tai lieu nay doi sang kieu hoc `guide-first`, nghia la moi chang se di theo thu tu:
+Tài liệu này đổi sang kiểu học `guide-first`, nghĩa là mỗi chặng sẽ đi theo thứ tự:
 
-1. Doc `01_guide.md` de hieu khai niem va mental model.
-2. Doc `02_coding_guide.md` de hieu syntax, ham goi, va thu tu code that su.
-3. Tu viet `03_starter.py` theo checklist va walkthrough.
-4. Lam `04_extensions.md` de dao sau van trong boundary bai hoc.
-5. Cuoi cung moi mo `05_reference.py` de doi chieu.
+1. Đọc `01_guide.md` để hiểu khái niệm và mental model.
+2. Đọc `02_coding_guide.md` để hiểu syntax, hàm gọi, và thứ tự code thật sự.
+3. Tự viết `03_starter.py` theo checklist và walkthrough.
+4. Làm `04_extensions.md` để đào sâu vấn trong boundary bài học.
+5. Cuối cùng mới mở `05_reference.py` để đối chiếu.
 
-Tai sao can hoc theo lo trinh nay thay vi nhay thang vao file goc?
+Tại sao cần học theo lộ trình này thay vì nhảy thẳng vào file gốc?
 
-Vi `deepstream-test1.py` gop nhieu khai niem cung luc:
+Vì `deepstream-test1.py` gộp nhiều khái niệm cùng lúc:
 
-- Tao va quan ly pipeline GStreamer.
-- Decode video bang plugin NVIDIA.
-- Dua frame vao `nvstreammux`.
-- Chay suy luan bang `nvinfer`.
-- Doc metadata bang `pyds`.
-- Ve overlay bang `nvdsosd`.
+- Tạo và quản lý pipeline GStreamer.
+- Decode video bằng plugin NVIDIA.
+- Đưa frame vào `nvstreammux`.
+- Chạy suy luận bằng `nvinfer`.
+- Đọc metadata bằng `pyds`.
+- Vẽ overlay bằng `nvdsosd`.
 
-Neu tach tung lop va buoc ban tu code lai, ban se nho duoc:
+Nếu tách từng lớp và bước bạn tự code lại, bạn sẽ nhớ được:
 
-- du lieu dang o dang nao tai moi moc
-- plugin nao vua bien doi du lieu
-- thu tu viet code tu file trong
+- dữ liệu đang ở dạng nào tại mỗi mốc
+- plugin nào vừa biến đổi dữ liệu
+- thứ tự viết code từ file trong
 
-## Ban do hoc
+## Bản đồ học
 
-### Chang 1: Nhan dien bo khung GStreamer
+### Chặng 1: Nhận diện bộ khung GStreamer
 
-Doc theo thu tu:
+Đọc theo thứ tự:
 
 - `../lessons/01_gst_bootstrap/01_guide.md`
 - `../lessons/01_gst_bootstrap/02_coding_guide.md`
@@ -37,22 +37,22 @@ Doc theo thu tu:
 - `../lessons/01_gst_bootstrap/04_extensions.md`
 - `../lessons/01_gst_bootstrap/05_reference.py`
 
-Muc tieu:
+Mục tiêu:
 
-- Hieu `Gst.init()`.
-- Hieu `Gst.Pipeline()`.
-- Hieu bus message, `GLib.MainLoop()`, `set_state()`.
-- Tu lap duoc app toi thieu `filesrc -> fakesink`.
+- Hiểu `Gst.init()`.
+- Hiểu `Gst.Pipeline()`.
+- Hiểu bus message, `GLib.MainLoop()`, `set_state()`.
+- Tự lập được app tối thiểu `filesrc -> fakesink`.
 
-Sau chang nay, ban phai tu tra loi duoc:
+Sau chặng này, bạn phải tự trả lời được:
 
-- App GStreamer toi thieu can nhung buoc nao?
-- Tai sao bus watch va main loop di cung nhau?
-- Vi sao cleanup ve `NULL` la mot buoc nghiêm tuc?
+- App GStreamer tối thiểu cần những bước nào?
+- Tại sao bus watch và main loop đi cùng nhau?
+- Vì sao cleanup về `NULL` là một bước nghiêm túc?
 
-### Chang 2: Hieu chuoi input va decode
+### Chặng 2: Hiểu chuỗi input và decode
 
-Doc theo thu tu:
+Đọc theo thứ tự:
 
 - `../lessons/02_decode_chain/01_guide.md`
 - `../lessons/02_decode_chain/02_coding_guide.md`
@@ -60,21 +60,21 @@ Doc theo thu tu:
 - `../lessons/02_decode_chain/04_extensions.md`
 - `../lessons/02_decode_chain/05_reference.py`
 
-Muc tieu:
+Mục tiêu:
 
-- Phan biet du lieu nen va frame sau decode.
-- Hieu vi sao can `h264parse` truoc `nvv4l2decoder`.
-- Tu lap duoc chuoi decode toi thieu.
+- Phân biệt dữ liệu nén và frame sau decode.
+- Hiểu vì sao cần `h264parse` trước `nvv4l2decoder`.
+- Tự lập được chuỗi decode tối thiểu.
 
-Sau chang nay, ban phai tu tra loi duoc:
+Sau chặng này, bạn phải tự trả lời được:
 
-- `filesrc` co hieu H264 khong?
-- Parser khac decoder o dau?
-- Sau decoder, du lieu dang "giong cai gi"?
+- `filesrc` có hiểu H264 không?
+- Parser khác decoder ở đâu?
+- Sau decoder, dữ liệu đang "giống cái gì"?
 
-### Chang 3: Hieu `nvstreammux`
+### Chặng 3: Hiểu `nvstreammux`
 
-Doc theo thu tu:
+Đọc theo thứ tự:
 
 - `../lessons/03_streammux_single_source/01_guide.md`
 - `../lessons/03_streammux_single_source/02_coding_guide.md`
@@ -83,83 +83,133 @@ Doc theo thu tu:
 - `../lessons/03_streammux_single_source/05_reference.py`
 - `../notes/01_pipeline_flow.md`
 
-Muc tieu:
+Mục tiêu:
 
-- Hieu vi sao DeepStream van can mux du chi co 1 source.
-- Hieu request pad `sink_0`.
-- Hieu `batch-size`, `width`, `height`, `batched-push-timeout`.
+- Hiểu vì sao DeepStream vẫn cần mux dù chỉ có 1 source.
+- Hiểu request pad `sink_0`.
+- Hiểu `batch-size`, `width`, `height`, `batched-push-timeout`.
 
-Sau chang nay, ban phai tu tra loi duoc:
+Sau chặng này, bạn phải tự trả lời được:
 
-- Tai sao `decoder.get_static_pad("src")` lai link vao
+- Tại sao `decoder.get_static_pad("src")` lại link vào
   `streammux.request_pad_simple("sink_0")`?
-- Tai sao `nvstreammux` khong chi danh cho multi-source?
+- Tại sao `nvstreammux` không chỉ dành cho multi-source?
 
-### Chang 4: Hieu suy luan voi `nvinfer`
+### Chặng 4: Hiểu suy luận với `nvinfer`
 
-Day van la chang dang theo kieu exercise cu, nhung nen hoc voi tu duy moi:
-doc note truoc, tu ve lai pipeline, roi moi mo file code.
+Đọc theo thứ tự:
 
-Doc va chay:
-
-- `../exercises/04_primary_infer.py`
+- `../lessons/04_primary_infer/01_guide.md`
+- `../lessons/04_primary_infer/02_coding_guide.md`
+- `../lessons/04_primary_infer/03_starter.py`
+- `../lessons/04_primary_infer/04_extensions.md`
+- `../lessons/04_primary_infer/05_reference.py`
 - `../notes/02_infer_config_breakdown.md`
 
-Muc tieu:
+Mục tiêu:
 
-- Biet `config-file-path` noi code voi model.
-- Doc duoc cac key chinh trong file config.
+- Biết `config-file-path` nối code với model.
+- Hiểu `nvinfer` bắt đầu thêm metadata vào buffer từ đâu.
+- Phân biệt phần nào nên sửa trong code, phần nào nên sửa trong config.
 
-### Chang 5: Hieu metadata flow
+### Chặng 5: Hiểu metadata flow
 
-Doc va chay:
+Đọc theo thứ tự:
 
-- `../exercises/05_probe_batch_meta.py`
+- `../lessons/05_probe_batch_meta/01_guide.md`
+- `../lessons/05_probe_batch_meta/02_coding_guide.md`
+- `../lessons/05_probe_batch_meta/03_starter.py`
+- `../lessons/05_probe_batch_meta/04_extensions.md`
+- `../lessons/05_probe_batch_meta/05_reference.py`
 - `../notes/03_metadata_flow.md`
 
-Muc tieu:
+Mục tiêu:
 
-- Hieu `Gst.Buffer -> NvDsBatchMeta -> NvDsFrameMeta -> NvDsObjectMeta`.
-- Biet ly do dung `hash(gst_buffer)`.
-- Biet vi sao phai `.cast()`.
+- Hiểu `Gst.Buffer -> NvDsBatchMeta -> NvDsFrameMeta -> NvDsObjectMeta`.
+- Biết lý do dùng `hash(gst_buffer)`.
+- Biết vì sao phải `.cast()`.
 
-### Chang 6: Hieu overlay
+### Chặng 6: Hiểu overlay
 
-Doc va chay:
+Đọc theo thứ tự:
 
-- `../exercises/06_osd_overlay_counts.py`
+- `../lessons/06_osd_overlay_counts/01_guide.md`
+- `../lessons/06_osd_overlay_counts/02_coding_guide.md`
+- `../lessons/06_osd_overlay_counts/03_starter.py`
+- `../lessons/06_osd_overlay_counts/04_extensions.md`
+- `../lessons/06_osd_overlay_counts/05_reference.py`
 
-Muc tieu:
+Mục tiêu:
 
-- Biet cach cap nhat text overlay.
-- Biet cach doi mau bbox theo class.
+- Biết cách cập nhật text overlay.
+- Biết cách đổi màu bbox theo class.
+- Hiểu vai trò của `NvDsDisplayMeta`.
 
-### Chang 7: Mo rong sang config, multi-source, RTSP
+### Chặng 7: Học config như một phần của pipeline
 
-Doc va chay:
+Đọc và thực hành:
 
 - `../exercises/07_config_variants/pgie_trafficcamnet.txt`
-- `../exercises/08_multisource_batching.py`
-- `../exercises/09_rtsp_source_walkthrough.py`
+- quay lại `../lessons/04_primary_infer/` va thử đổi config
+
+Mục tiêu:
+
+- Hiểu config variant không phải file rời, mà là phần nối trực tiếp với `nvinfer`.
+- Biết những key nào nên chỉnh khi test batching và threshold.
+
+### Chặng 8: Hiểu batching thật sự khi có nhiều source
+
+Đọc theo thứ tự:
+
+- `../lessons/08_multisource_batching/01_guide.md`
+- `../lessons/08_multisource_batching/02_coding_guide.md`
+- `../lessons/08_multisource_batching/03_starter.py`
+- `../lessons/08_multisource_batching/04_extensions.md`
+- `../lessons/08_multisource_batching/05_reference.py`
+
+Mục tiêu:
+
+- Hiểu batching thật sự khi có nhiều source.
+- Đọc `pad_index` để biết frame đến từ source nào.
+
+### Chặng 9: Chuyển từ file source sang RTSP
+
+Đọc theo thứ tự:
+
+- `../lessons/09_rtsp_source_walkthrough/01_guide.md`
+- `../lessons/09_rtsp_source_walkthrough/02_coding_guide.md`
+- `../lessons/09_rtsp_source_walkthrough/03_starter.py`
+- `../lessons/09_rtsp_source_walkthrough/04_extensions.md`
+- `../lessons/09_rtsp_source_walkthrough/05_reference.py`
+
+Mục tiêu:
+
+- Hiểu vì sao RTSP thường dùng `uridecodebin` / source bin.
+- Hiểu ghost pad và dynamic pad callback.
+- Hiểu vì sao `live-source=True` quan trọng.
+
+### Chặng 10: Dùng checklist để debug có hệ thống
+
+Đọc và dùng:
+
 - `../exercises/10_pipeline_debug_checklist.md`
 
-Muc tieu:
+Mục tiêu:
 
-- Hieu batching that su khi co nhieu source.
-- Hieu cach doi tu file source sang RTSP.
-- Biet tu debug khi pipeline khong ra frame hoac khong co metadata.
+- Biết tự debug khi pipeline không ra frame hoặc không có metadata.
+- Có một checklist cố định để quay lại khi bài học khó hơn bắt đầu fail.
 
-## Cach hoc cho tung chang
+## Cách học cho từng chặng
 
-- Chua mo `05_reference.py` truoc khi ban tu lam `03_starter.py`.
-- Neu thay `03_starter.py` qua kho, quay lai `02_coding_guide.md` truoc khi xem dap an.
-- Moi lan chi mo rong trong boundary chang dang hoc.
-- Ghi lai bang loi cua ban:
-  du lieu dang o dang nao, plugin vua lam gi, va neu bo plugin do thi pipeline hong o dau.
-- Khi bi ket, quay lai `01_guide.md` va `02_coding_guide.md` thay vi xem dap an ngay.
+- Chưa mở `05_reference.py` trước khi bạn tự làm `03_starter.py`.
+- Nếu thấy `03_starter.py` quá khó, quay lại `02_coding_guide.md` trước khi xem đáp án.
+- Mỗi lần chỉ mở rộng trong boundary chặng đang học.
+- Ghi lại bằng lời của bạn:
+  dữ liệu đang ở dạng nào, plugin vừa làm gì, và nếu bỏ plugin đó thì pipeline hỏng ở đâu.
+- Khi bị kẹt, quay lại `01_guide.md` và `02_coding_guide.md` thay vì xem đáp án ngay.
 
-## Tu hoc de sau hon
+## Tự học để sâu hơn
 
-- Quay lai `../../deepstream-test1.py` va danh dau tung khoi theo 7 chang o tren.
-- Neu ban giai thich duoc tung khoi lon trong file goc bang loi cua minh, luc do
-  ban da bat dau "hieu DeepStream", khong chi la copy sample.
+- Quay lai `../../deepstream-test1.py` và đánh dấu từng khối theo 10 chặng ở trên.
+- Nếu bạn giải thích được tung khối lớn trong file gốc bằng lời của mình, lúc đó
+  bạn đã bắt đầu "hiểu DeepStream", không chỉ là copy sample.

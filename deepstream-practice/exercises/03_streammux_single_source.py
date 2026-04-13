@@ -5,11 +5,11 @@ Exercise 03: Single-source streammux.
 Pipeline:
     filesrc -> h264parse -> nvv4l2decoder -> nvstreammux -> fakesink
 
-Muc tieu:
-- Hieu request pad cua `nvstreammux`.
-- Hieu vi sao DeepStream van can mux khi chi co 1 source.
+Mục tiêu:
+- Hiểu request pad của `nvstreammux`.
+- Hiểu vì sao DeepStream vẫn cần mux khi chỉ có 1 source.
 
-Cach chay:
+Cách chạy:
     python3 exercises/03_streammux_single_source.py /path/to/sample.h264
 """
 
@@ -41,7 +41,7 @@ def on_message(bus, message, loop):
 def make_element(factory_name, name):
     element = Gst.ElementFactory.make(factory_name, name)
     if not element:
-        raise RuntimeError(f"Khong tao duoc element: {factory_name}")
+        raise RuntimeError(f"Không tạo được element: {factory_name}")
     return element
 
 
@@ -75,23 +75,23 @@ def main(args):
         pipeline.add(element)
 
     if not source.link(parser):
-        raise RuntimeError("Khong link duoc filesrc -> h264parse")
+        raise RuntimeError("Không link được filesrc -> h264parse")
     if not parser.link(decoder):
-        raise RuntimeError("Khong link duoc h264parse -> nvv4l2decoder")
+        raise RuntimeError("Không link được h264parse -> nvv4l2decoder")
 
     sinkpad = streammux.request_pad_simple("sink_0")
     if not sinkpad:
-        raise RuntimeError("Khong xin duoc request pad sink_0 tu nvstreammux")
+        raise RuntimeError("Không xin được request pad sink_0 từ nvstreammux")
 
     srcpad = decoder.get_static_pad("src")
     if not srcpad:
-        raise RuntimeError("Khong lay duoc src pad tu decoder")
+        raise RuntimeError("Không lấy được src pad từ decoder")
 
     if srcpad.link(sinkpad) != Gst.PadLinkReturn.OK:
-        raise RuntimeError("Khong link duoc decoder.src -> streammux.sink_0")
+        raise RuntimeError("Không link được decoder.src -> streammux.sink_0")
 
     if not streammux.link(sink):
-        raise RuntimeError("Khong link duoc nvstreammux -> fakesink")
+        raise RuntimeError("Không link được nvstreammux -> fakesink")
 
     bus = pipeline.get_bus()
     loop = GLib.MainLoop()
@@ -112,13 +112,13 @@ def main(args):
     finally:
         pipeline.set_state(Gst.State.NULL)
 
-    # TODO: Thu doi `batch-size` thanh 2 va ghi ra ban nghi muxer se cho dieu gi.
-    # TODO: Them source thu hai va xin them `sink_1`.
-    # TODO: Thu doi `width`/`height` de hieu muxer dang xac dinh output frame size.
+    # TODO: Thử đổi `batch-size` thành 2 và ghi ra bạn nghĩ muxer sẽ chờ điều gì.
+    # TODO: Thêm source thứ hai và xin thêm `sink_1`.
+    # TODO: Thử đổi `width`/`height` để hiểu muxer đang xác định output frame size.
     #
     # SELF-CHECK:
-    # - Tai sao `nvstreammux` dung request pad thay vi chi co 1 sink pad co dinh?
-    # - Vi sao pipeline DeepStream van can mux du chi co 1 source?
+    # - Tại sao `nvstreammux` dùng request pad thay vì chỉ có 1 sink pad cố định?
+    # - Vì sao pipeline DeepStream vẫn cần mux dù chỉ có 1 source?
     return 0
 
 

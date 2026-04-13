@@ -1,102 +1,102 @@
 # Infer Config Breakdown
 
-File goc `../../dstest1_pgie_config.txt` la noi `nvinfer` doc de biet:
-- model nao duoc dung,
-- engine nao duoc nap,
-- co bao nhieu class,
-- cach loc va clustering bbox sau suy luan.
+File gốc `../../dstest1_pgie_config.txt` là nơi `nvinfer` đọc để biết:
+- model nào được dùng,
+- engine nào được nạp,
+- có bao nhiều class,
+- cách lọc và clustering bbox sau suy luận.
 
-Trong code, diem noi giua pipeline va model la:
+Trong code, điểm nối giữa pipeline và model là:
 
 ```python
 pgie.set_property("config-file-path", "dstest1_pgie_config.txt")
 ```
 
-Neu khong hieu file config nay, ban se thay `nvinfer` giong nhu hop den.
+Nếu không hiểu file config nay, bạn sẽ thấy `nvinfer` giống như hộp đen.
 
-## Cac key chinh trong file hien tai
+## Các key chính trong file hiện tại
 
 ### `onnx-file`
 
-Gia tri hien tai:
+Giá trị hiện tại:
 - `../../../../samples/models/Primary_Detector/resnet18_trafficcamnet_pruned.onnx`
 
-Y nghia:
-- Duong dan den model ONNX goc.
-- Thuong duoc dung khi can build TensorRT engine lan dau.
+Ý nghĩa:
+- Đường dẫn đến model ONNX gốc.
+- Thường được dùng khi cần build TensorRT engine lần đầu.
 
 ### `model-engine-file`
 
-Gia tri hien tai:
+Giá trị hiện tại:
 - `../../../../samples/models/Primary_Detector/resnet18_trafficcamnet_pruned.onnx_b1_gpu0_fp16.engine`
 
-Y nghia:
-- Engine TensorRT da toi uu san cho GPU / precision / batch-size cu the.
-- Neu engine phu hop da ton tai, DeepStream co the nap nhanh hon so voi build lai
-  tu model goc.
+Ý nghĩa:
+- Engine TensorRT đã tối ưu sẵn cho GPU / precision / batch-size cụ thể.
+- Nếu engine phù hợp đã tồn tại, DeepStream có thể nạp nhanh hơn so với build lại
+  từ model gốc.
 
 ### `labelfile-path`
 
-Gia tri hien tai:
+Giá trị hiện tại:
 - `../../../../samples/models/Primary_Detector/labels.txt`
 
-Y nghia:
-- Mapping `class_id -> ten class`.
-- Gia tri nay rat quan trong khi ban muon in log de nguoi doc hieu duoc.
+Ý nghĩa:
+- Mapping `class_id -> tên class`.
+- Giá trị này rất quan trọng khi bạn muốn in log để người đọc hiểu được.
 
 ### `batch-size`
 
-Gia tri hien tai:
+Giá trị hiện tại:
 - `1`
 
-Y nghia:
-- So frame duoc infer cung luc.
-- Thuong can dong bo voi batch ma `nvstreammux` tao ra.
+Ý nghĩa:
+- Số frame được infer cùng lúc.
+- Thuong cần đồng bộ voi batch mà `nvstreammux` tạo ra.
 
 ### `network-mode`
 
-Gia tri hien tai:
+Giá trị hiện tại:
 - `2`
 
-Theo docs DeepStream, cac gia tri pho bien:
+Theo docs DeepStream, các giá trị phổ biến:
 - `0`: FP32
 - `1`: INT8
 - `2`: FP16
 
-Y nghia:
-- Chon precision cho suy luan.
-- Precision anh huong den toc do, memory va do chinh xac.
+Ý nghĩa:
+- Chọn precision cho suy luận.
+- Precision ảnh hưởng đến tốc độ, memory và độ chính xác.
 
 ### `num-detected-classes`
 
-Gia tri hien tai:
+Giá trị hiện tại:
 - `4`
 
-Y nghia:
-- So class detector se output.
-- Can phu hop voi model va labels.
+Ý nghĩa:
+- Số class detector sẽ output.
+- Cần phù hợp với model và labels.
 
 ### `interval`
 
-Gia tri hien tai:
+Giá trị hiện tại:
 - `0`
 
-Y nghia:
-- Tan suat bo qua frame infer.
-- `0` nghia la infer moi frame.
+Ý nghĩa:
+- Tần suất bỏ qua frame infer.
+- `0` nghĩa là infer mỗi frame.
 
 ### `gie-unique-id`
 
-Gia tri hien tai:
+Giá trị hiện tại:
 - `1`
 
-Y nghia:
-- ID de phan biet engine nay voi engine khac trong pipeline.
-- Rat quan trong khi sau nay co them tracker, SGIE hoac custom metadata.
+Ý nghĩa:
+- ID để phân biệt engine này với engine khác trong pipeline.
+- Rat quan trọng khi sau này có thêm tracker, SGIE hoặc custom metadata.
 
 ### `cluster-mode`
 
-Gia tri hien tai:
+Giá trị hiện tại:
 - `2`
 
 Theo docs DeepStream:
@@ -106,57 +106,57 @@ Theo docs DeepStream:
 - `3`: Hybrid
 - `4`: Khong clustering
 
-Y nghia:
-- Cac candidate bbox tu model can duoc gom / loc sau suy luan.
-- `2` thuong la NMS, rat pho bien cho detector.
+Ý nghĩa:
+- Cac candidate bbox từ model cần được gom / lọc sau suy luận.
+- `2` thường là NMS, rất phổ biến cho detector.
 
 ### `pre-cluster-threshold`
 
-Gia tri hien tai:
+Giá trị hiện tại:
 - `0.2`
 
-Y nghia:
-- Loc bo bbox confidence thap truoc khi clustering / NMS.
-- Tang gia tri nay thi output thuong sach hon nhung de miss object hon.
+Ý nghĩa:
+- Lọc bỏ bbox confidence thấp trước khi clustering / NMS.
+- Tăng giá trị này thì output thường sạch hơn nhưng dễ miss object hơn.
 
 ### `topk`
 
-Gia tri hien tai:
+Giá trị hiện tại:
 - `20`
 
-Y nghia:
-- Giu lai toi da bao nhieu candidate truoc / trong buoc loc tiep theo.
+Ý nghĩa:
+- Giữ lại tối đa bao nhiêu candidate trước / trong bước lọc tiếp theo.
 
 ### `nms-iou-threshold`
 
-Gia tri hien tai:
+Giá trị hiện tại:
 - `0.5`
 
-Y nghia:
-- Nguong giao nhau de NMS quyet dinh giu hoac bo bbox trung lap.
+Ý nghĩa:
+- Ngưỡng giao nhau để NMS quyết định giữ hoặc bỏ bbox trùng lặp.
 
-## Moi lien he giua config va hanh vi runtime
+## Mối liên hệ giữa config và hành vi runtime
 
-- `deepstream-test1.py` tao `nvinfer`.
-- `nvinfer` doc `config-file-path`.
-- Config quyet dinh model va cach post-process.
-- Sau do `nvinfer` gan `NvDsObjectMeta` vao buffer.
-- Pad probe cua ban doc chinh metadata do.
+- `deepstream-test1.py` tạo `nvinfer`.
+- `nvinfer` đọc `config-file-path`.
+- Config quyet dinh model và cách post-process.
+- Sau đó `nvinfer` gắn `NvDsObjectMeta` vào buffer.
+- Pad probe cua ban đọc chính metadata đó.
 
-Noi cach khac:
-- Code xay duong ong.
-- Config quyet dinh "bo nao" va "quy tac doc output".
+Nói cách khác:
+- Code xây đường ống.
+- Config quyết định "bộ não" và "quy tắc đọc output".
 
 ## `# TODO`
 
-- Ghi ra bang loi cua ban su khac nhau giua model goc va engine.
-- Sua `pre-cluster-threshold` thanh `0.4`, chay lai va ghi nhan thay doi.
-- Sua `topk` nho hon, quan sat xem output co gon lai khong.
-- Giai thich tai sao `num-detected-classes` sai co the lam log / label roi loan.
+- Ghi ra bằng lời của bạn sự khác nhau giữa model gốc va engine.
+- Sua `pre-cluster-threshold` thành `0.4`, chạy lại và ghi nhận thay đổi.
+- Sửa `topk` nhỏ hơn, quan sát xem output có gọn lại không.
+- Giải thích tại sao `num-detected-classes` sai có thể làm log / label rối loạn.
 
 ## SELF-CHECK
 
-- Khi nao DeepStream can build engine moi?
-- Precision FP16 khac gi so voi INT8 va FP32 o muc y tuong?
-- Neu `batch-size` cua muxer va infer khong an khop, ban nghi se co nhung kieu
-  van de nao?
+- Khi nào DeepStream cần build engine mới?
+- Precision FP16 khác gì so với INT8 và FP32 ở mức ý tưởng?
+- Neu `batch-size` cua muxer va infer khong an khop, bạn nghĩ sẽ có những kiểu
+  vấn đề nào?

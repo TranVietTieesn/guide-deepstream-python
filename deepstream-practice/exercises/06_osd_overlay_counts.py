@@ -6,11 +6,11 @@ Pipeline:
     filesrc -> h264parse -> nvv4l2decoder -> nvstreammux -> nvinfer
     -> nvvideoconvert -> nvdsosd -> sink
 
-Muc tieu:
-- Dung metadata de tao text overlay.
-- Doi mau bbox theo class de thay metadata duoc "visualize" nhu the nao.
+Mục tiêu:
+- Dùng metadata để tạo text overlay.
+- Đổi màu bbox theo class để thấy metadata được "visualize" như thế nào.
 
-Cach chay:
+Cách chạy:
     python3 exercises/06_osd_overlay_counts.py /path/to/sample.h264
 """
 
@@ -55,7 +55,7 @@ def on_message(bus, message, loop):
 def make_element(factory_name, name):
     element = Gst.ElementFactory.make(factory_name, name)
     if not element:
-        raise RuntimeError(f"Khong tao duoc element: {factory_name}")
+        raise RuntimeError(f"Không tạo được element: {factory_name}")
     return element
 
 
@@ -181,16 +181,16 @@ def main(args):
         pipeline.add(element)
 
     if not source.link(parser):
-        raise RuntimeError("Khong link duoc filesrc -> h264parse")
+        raise RuntimeError("Không link được filesrc -> h264parse")
     if not parser.link(decoder):
-        raise RuntimeError("Khong link duoc h264parse -> nvv4l2decoder")
+        raise RuntimeError("Không link được h264parse -> nvv4l2decoder")
 
     sinkpad = streammux.request_pad_simple("sink_0")
     srcpad = decoder.get_static_pad("src")
     if not sinkpad or not srcpad:
-        raise RuntimeError("Khong lay duoc pad de noi vao nvstreammux")
+        raise RuntimeError("Không lấy được pad để nối vào nvstreammux")
     if srcpad.link(sinkpad) != Gst.PadLinkReturn.OK:
-        raise RuntimeError("Khong link duoc decoder.src -> streammux.sink_0")
+        raise RuntimeError("Không link được decoder.src -> streammux.sink_0")
 
     for upstream, downstream, label in (
         (streammux, pgie, "nvstreammux -> nvinfer"),
@@ -199,11 +199,11 @@ def main(args):
         (nvosd, sink, "nvdsosd -> sink"),
     ):
         if not upstream.link(downstream):
-            raise RuntimeError(f"Khong link duoc {label}")
+            raise RuntimeError(f"Không link được {label}")
 
     osd_sink_pad = nvosd.get_static_pad("sink")
     if not osd_sink_pad:
-        raise RuntimeError("Khong lay duoc nvosd sink pad")
+        raise RuntimeError("Không lấy được nvosd sink pad")
     osd_sink_pad.add_probe(
         Gst.PadProbeType.BUFFER,
         osd_sink_pad_buffer_probe,
@@ -225,13 +225,13 @@ def main(args):
     finally:
         pipeline.set_state(Gst.State.NULL)
 
-    # TODO: Them dong text moi hien tong so object theo frame.
-    # TODO: Doi mau bbox theo quy tac rieng cua ban.
-    # TODO: Them logic chi hien overlay cho `person`.
+    # TODO: Thêm dòng text mới hiện tổng số object theo frame.
+    # TODO: Đổi màu bbox theo quy tắc riêng của bạn.
+    # TODO: Thêm logic chỉ hiện overlay cho `person`.
     #
     # SELF-CHECK:
-    # - Bbox color duoc doi o dau?
-    # - Text overlay duoc tao tu `NvDsDisplayMeta` nhu the nao?
+    # - Bbox color được đổi ở đâu?
+    # - Text overlay được tạo từ `NvDsDisplayMeta` như thế nào?
     return 0
 
 
