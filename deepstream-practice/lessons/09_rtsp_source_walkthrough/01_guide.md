@@ -21,12 +21,102 @@ RTSP khac file source o 3 diem lon:
 Neu ban hieu bai nay, ban se biet vi sao sample RTSP trong DeepStream thuong khong
 viet theo kieu source file don gian.
 
+## Compared to Lesson 08
+
+Phan duoc giu nguyen:
+
+- downstream infer chain
+- `nvstreammux -> nvinfer -> nvvideoconvert -> nvdsosd -> sink`
+- request pad vao `nvstreammux`
+
+Phan moi trong lesson 09:
+
+- source khong con la `filesrc`
+- pad co the xuat hien dong
+- can `source bin` va `ghost pad`
+- can callback `pad-added`
+- can nghi theo tu duy live source
+
+Neu lesson 08 day ban "nhieu file source vao muxer", thi lesson 09 day ban "mot live
+source dong vao muxer" the nao.
+
+## New Concepts In This Lesson
+
+### `uridecodebin`
+
+- Element nay tu tim decode chain phu hop dua tren URI.
+- RTSP thuong can cach tiep can nay thay vi hard-code `filesrc -> h264parse`.
+
+### Dynamic pad
+
+- Pad khong co san tu dau.
+- No xuat hien khi `uridecodebin` da biet media type va da tao decode path.
+
+### Source bin
+
+- Day la mot `Gst.Bin` boc logic source thanh mot khoi rieng.
+- De ben ngoai, ban chi can coi no nhu mot element co `src` pad.
+
+### Ghost pad
+
+- Ghost pad la pad "lo ra ben ngoai" cua bin.
+- No giup pipeline chinh khong can biet chi tiet ben trong source bin.
+
+### `live-source=True`
+
+- Bao cho muxer rang day la source live.
+- Bai nay chi can hieu o muc khai niem: timestamp va batching voi live source can xu ly
+  khac file source.
+
+## Must Understand Now vs Know For Later
+
+Can hieu ngay o bai nay:
+
+- RTSP thuong can `uridecodebin`
+- pad-added callback la noi ban quyet dinh co noi pad vao pipeline chinh hay khong
+- source bin + ghost pad giup rest of pipeline don gian hon
+- `live-source=True` la mot phan cua mental model cho live stream
+
+Chi can biet mat o bai nay, chua can hieu sau:
+
+- latency tuning sau hon cua RTSP
+- reconnect logic
+- tat ca bien the caps/features co the gap
+
 ## Mental Model
 
 - `uridecodebin` tao pad dong khi no biet media type
 - source bin dung de boc logic source thanh mot khoi co `src` ghost pad
 - `cb_newpad(...)` la noi ra quyet dinh pad nao hop le de noi vao pipeline chinh
 - `streammux.live-source=True` giup muxer xu ly source live dung hon
+
+Hay nho theo mot cau:
+
+- decode bin tao pad dong
+- callback quyet dinh co nhan pad do hay khong
+- ghost pad lo pad hop le ra ngoai source bin
+- pipeline chinh chi viec noi source bin vao muxer
+
+## Why Source Bin Exists
+
+Neu khong co source bin, `main(...)` se phai xu ly truc tiep logic dynamic pad cua
+`uridecodebin`, khien pipeline chinh roi hon nhieu.
+
+Source bin giai quyet bai toan do:
+
+- ben trong bin: xu ly source RTSP, callback, ghost pad
+- ben ngoai bin: chi thay mot `src` pad de noi vao muxer
+
+## Live-Source Mental Model
+
+Khac voi file source:
+
+- RTSP co the khong co EOS "dep" nhu file
+- timing phu thuoc vao stream live
+- muxer can biet day la live source de xu ly hop ly hon
+
+Ban chua can hoc sau ve clocking o bai nay. Chi can nho `live-source=True` khong phai
+mot property ngau nhien.
 
 ## Implementation Checklist
 
@@ -51,6 +141,8 @@ viet theo kieu source file don gian.
 - pad moi tao khong phai NVMM
 - ghost pad khong duoc set target
 - bo `live-source=True` lam timestamp/batching co van de
+- pad-added callback chay nhung ban noi nham pad audio:
+pipeline van roi va kho nhan ra vi sao downstream khong nhan duoc frame video
 
 ## Self-Check
 

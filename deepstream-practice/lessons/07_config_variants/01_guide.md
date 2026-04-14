@@ -10,6 +10,36 @@ Day khong phai la noi dau tien ban gap file config.
 Lesson 04 da gioi thieu `config-file-path` va vai tro cua `dstest1_pgie_config.txt`.
 Bai nay la luc ban quay lai config de tune co chu dich.
 
+## What Is New In This Lesson
+
+Phan khong moi:
+
+- infer pipeline code
+- `config-file-path`
+- `streammux`
+- `nvinfer`
+
+Phan moi:
+
+- doi truc tiep tham so trong file config
+- chay lai cung mot pipeline voi config khac nhau
+- hoc trade-off giua recall, precision, overlap handling, va batching
+
+Neu lesson 04 day ban "config duoc noi vao code the nao", thi lesson 07 day ban "thay doi
+config thi output doi ra sao".
+
+## Suggested Workflow
+
+Hay lam bai nay theo dung thu tu, thay vi sua ngau nhien nhieu dong cung luc:
+
+1. Chon mot pipeline da chay on tu lesson 04, 05, hoac 06.
+2. Chay voi config mac dinh truoc.
+3. Chon duy nhat 1 tham so de doi.
+4. Chay lai va ghi nhan thay doi.
+5. Mới chuyen sang tham so tiep theo.
+
+Neu ban sua 3-4 tham so cung luc, bai nay se mat y nghia "config lab".
+
 ## Why It Matters
 
 - DeepStream pipeline không chỉ là code Python - phần lớn behavior nằm trong config.
@@ -38,6 +68,12 @@ Bai nay la luc ban quay lai config de tune co chu dich.
 
 - Cùng một pipeline code, nhưng output khác biệt rõ rệt.
 - Hiểu trade-off giữa precision và recall.
+
+Hay nho theo mot cau:
+
+- code pipeline la khung
+- config quyet dinh infer behavior
+- lesson 07 la bai de nhin ro anh huong cua config len ket qua
 
 ## Config Parameters Walkthrough
 
@@ -76,6 +112,16 @@ Nho rang anchor quan trong nhat tu lesson 04 van giu nguyen:
 - code set `config-file-path`
 - `streammux` co `batch-size` ben phia pipeline
 - PGIE config cung co `batch-size` ben phia infer
+
+## How To Read The TODOs In The Config
+
+Trong file `pgie_trafficcamnet.txt`, TODO khong bat ban viet code moi.
+No dang goi y cho ban cac thuc nghiem:
+
+- doi `pre-cluster-threshold` de xem output sach hon hay bi miss object
+- doi `topk` de xem candidate bi cat bot nhu the nao
+- doi `nms-iou-threshold` de xem overlap handling thay doi ra sao
+- doi `batch-size` khi hoc multi-source de doi chieu voi muxer
 
 ## Common Failure Modes
 
