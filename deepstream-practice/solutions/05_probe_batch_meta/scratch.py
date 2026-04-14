@@ -57,7 +57,6 @@ def osd_sink_pad_buffer_probe(pad, info, user_data):
     _ = user_data
     return Gst.PadProbeReturn.OK
 
-
 def main(args):
     if len(args) != 2:
         print(f"usage: {args[0]} <path-to-h264-file>", file=sys.stderr)
