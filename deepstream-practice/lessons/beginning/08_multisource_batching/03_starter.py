@@ -19,39 +19,31 @@ import pyds
 
 
 MUXER_BATCH_TIMEOUT_USEC = 33000
-PGIE_CONFIG_PATH = "pgie_trafficcamnet.txt"
-
+PGIE_CONFIG_PATH = os.path.abspath(os.path.join(
+    os.path.dirname(__file__), "..", "..", "..", "archive", "exercises", "07_config_variants", "pgie_trafficcamnet.txt"
+))
 
 
 def on_message(bus, message, loop):
+    _ = bus
     # TODO 1: Xu ly `EOS` va `ERROR`.
-    message_type = message.type
-    if message_type == Gst.MessageType.EOS:
-        print("Da doc het du lieu Pipeline")
-        loop.quit()
-    elif message_type == Gst.MessageType.ERROR:
-        err, debug = message.parse_error()
-        print(f"ERROR: {err}")
-        if debug:
-            print(f"DEBUG: {debug}")
-        loop.quit()
+    _ = message
+    _ = loop
     return True
 
 
 def make_element(factory_name, name):
     # TODO 2: Viet helper tao element.
-    element = Gst.ElementFactory.make(factory_name, name)
-    if not element:
-        raise RuntimeError(f"Khong tao duoc element: {element}")
-    return element
+    _ = factory_name
+    _ = name
+    raise NotImplementedError("TODO: implement make_element()")
 
 
 def build_source_branch(index, input_path):
     # TODO 3: Tao branch `filesrc -> h264parse -> nvv4l2decoder`.
-    source = make_element("filesrc", "file-src")
-    parser = make_element("h264parse", "parser")
-    decoder = make_element("nvv4l2decoder", "decoder")
-    
+    _ = index
+    _ = input_path
+    raise NotImplementedError("TODO: implement build_source_branch()")
 
 
 def osd_sink_pad_buffer_probe(pad, info, user_data):
