@@ -1,3 +1,4 @@
+.specstory/
 .cursor/
 __pycache__/
 *.pyc

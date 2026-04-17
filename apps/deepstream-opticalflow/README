@@ -63,6 +63,6 @@ This sample creates instance of "nvof" & "nvofvisual" gstreamer elements.
 2) nvofvisual element is used for visualizing the MV data using pre-defined
    color wheel matrix.
 
-3) It then obtains the flow vectors and demonstrates visualization of these 
-   flow vectors using OpenCV. The obtained image is different from the visualization 
+3) It then obtains the flow vectors and demonstrates visualization of these
+   flow vectors using OpenCV. The obtained image is different from the visualization
    plugin output in color, in order to demonstrate the difference.

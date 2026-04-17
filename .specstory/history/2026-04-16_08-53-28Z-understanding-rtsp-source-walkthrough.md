@@ -10,18 +10,18 @@ _**User**_
 
 ---
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <think><details><summary>Thought Process</summary>
 **Reviewing RTSP input explanations**
 
 I’m currently in Ask mode and it seems I need to answer a question in Vietnamese. First, I’ll inspect relevant lessons or documents to find a solution. I should provide an explanation about RTSP input using uridecodebin compared to a normal pipeline. I need to start with a commentary update before diving into the work. Plus, I'll look into using readonly tools and consider searching for uridecodebin in the repository. Let's tackle reading and searching in parallel!</details></think>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Mình sẽ đọc phần lesson RTSP và đoạn code liên quan để giải thích vì sao chỗ này dùng `uridecodebin` thay vì dựng pipeline thủ công từng phần.
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
 <details>
@@ -140,7 +140,7 @@ Status: **completed**
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/Projects/Deepstream-v2/deepstream-practice/solutions/09_rtsp_source_walkthrough/scratch.py</summary>
@@ -153,7 +153,7 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/Projects/Deepstream-v2/deepstream-practice/lessons/topics/multistream_and_batching/01_test3_multi_source_baseline/01_guide.md</summary>
@@ -166,7 +166,7 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="search" data-tool-name="glob_file_search">
 <details>
@@ -182,18 +182,18 @@ Directory: **/home/vtea/Projects/Deepstream-v2/deepstream-practice/lessons** (0 
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <think><details><summary>Thought Process</summary>
 **Looking into coding guides**
 
 I need to read the beginning of a coding guide. It feels important to start on the right foot, especially if I'm diving into something new and potentially overwhelming. I want to ensure I grasp the basics before moving on. Okay, let's focus on finding a user-friendly guide that includes all the essential information. This way, I can build a strong foundation for my coding journey!</details></think>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Mình đã thấy lesson này có hẳn phần giải thích `uridecodebin` + dynamic pad + source bin; giờ mình đọc đúng guide đó để diễn giải theo cách dễ hiểu hơn và gắn với RTSP.
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/Projects/Deepstream-v2/deepstream-practice/lessons/beginning/09_rtsp_source_walkthrough/02_coding_guide.md</summary>
@@ -206,7 +206,7 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/Projects/Deepstream-v2/deepstream-practice/lessons/beginning/09_rtsp_source_walkthrough/03_starter.py</summary>
@@ -219,7 +219,7 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/Projects/Deepstream-v2/deepstream-practice/solutions/09_rtsp_source_walkthrough/notes.md</summary>
@@ -232,7 +232,7 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/Projects/Deepstream-v2/deepstream-practice/archive/exercises/09_rtsp_source_walkthrough.py</summary>
@@ -245,14 +245,14 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <think><details><summary>Thought Process</summary>
 **Evaluating DeepStream usage**
 
 I need to mention that many samples in DeepStream utilize `uridecodebin` or `nvurisrcbin`. I should search for reference lines and note that I've already gathered results. I might bring up later that they follow the same pattern for the multi-source baseline to accept either file or RTSP. I could consider citing coding guidelines 53-57 of the baseline, but I think just mentioning it from reading might be sufficient. Citing could be optional.</details></think>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Đúng là đoạn đầu này khó hơn mấy bài `filesrc -> h264parse -> decoder`, vì lesson này đang dạy **cách DeepStream xử lý source "không cố định"**, đặc biệt là RTSP.
 
@@ -417,18 +417,18 @@ trong project có file hay phần nào sử dụng rtph264depay không ? cả �
 
 ---
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <think><details><summary>Thought Process</summary>
 **Searching for components**
 
 I need to answer a question, and it looks like I need to do a readonly search. It might be a good idea to include the apps path, since sys.path is pointing to deepstream_python_apps/apps, probably within the workspace. I'm thinking I should search the whole repository for keywords like rtph264depay and rtspsrc. I definitely want to provide an update before I use any tools. Let's get to it!</details></think>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Mình sẽ quét cả repo và phần app tham chiếu để xem có chỗ nào viết tay `rtph264depay` hay không, rồi tóm tắt theo file để bạn đối chiếu.
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
 <details>
@@ -469,7 +469,7 @@ Status: **completed**
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
 <details>
@@ -511,18 +511,18 @@ Status: **completed**
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <think><details><summary>Thought Process</summary>
 **Searching for external apps**
 
 I think I need to search in the external folder at /home/vtea/opt/... for any apps. Maybe I can use "rg" outside the workspace, but I'm considering if the tool path needs to be absolute since it likely should be. Okay, so I'll proceed with that approach and look for the relevant apps in that directory. Let’s see what I can find! I want to make sure I’m efficient about it.</details></think>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Trong repo hiện tại chưa thấy chuỗi `rtph264depay`; mình kiểm tra thêm luôn thư mục `deepstream_python_apps/apps` mà project đang import để xem NVIDIA samples có dùng tay plugin này ở đâu không.
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
 <details>
@@ -563,7 +563,7 @@ Status: **completed**
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
 <details>
@@ -650,11 +650,11 @@ Status: **completed**
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Mình quét thêm toàn bộ `deepstream-9.0/sources` để chắc là không có sample nào trong bộ source tham chiếu đang viết tay `rtph264depay`.
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
 <details>
@@ -716,18 +716,18 @@ Status: **completed**
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <think><details><summary>Thought Process</summary>
 **Exploring C file snippets**
 
 I need to formulate an answer, so I’m thinking about diving into relevant snippets of C files. I should check specific lines in deepstream_source_bin.c and gst-nvurisrcbin.cpp, maybe even look at some sample apps. By reviewing these, I can gather the context I need to provide a clear and helpful response. Let's see what essential information I can uncover!</details></think>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Đã có kết quả thú vị: trong Python samples thì không có, nhưng trong C source/samples của DeepStream lại có dùng tay `rtph264depay`. Mình đọc nhanh vài đoạn chính để chỉ đúng ngữ cảnh.
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/opt/nvidia/deepstream/deepstream-9.0/sources/apps/apps-common/src/deepstream_source_bin.c</summary>
@@ -740,7 +740,7 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/opt/nvidia/deepstream/deepstream-9.0/sources/gst-plugins/gst-nvurisrcbin/gstdsnvurisrcbin.cpp</summary>
@@ -753,7 +753,7 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/opt/nvidia/deepstream/deepstream-9.0/sources/apps/sample_apps/deepstream-testsr/deepstream_test_sr_app.c</summary>
@@ -766,7 +766,7 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/opt/nvidia/deepstream/deepstream-9.0/sources/apps/sample_apps/deepstream-app/deepstream_app.c</summary>
@@ -779,14 +779,14 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <think><details><summary>Thought Process</summary>
 **Clarifying project matches**
 
 I see that within the project, there are no matches for Python apps in DeepStream, but there are in the DeepStream sources, specifically in C/common/plugin. I should mention the relevant files and possibly explain why there’s this difference: Python apps depend on uridecodebin and nvurisrcbin, which handle depay internally, while C/common/plugin is more explicit. It might be helpful to cite some code blocks for clarification.</details></think>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Có, nhưng tách ra làm 2 nhóm rất rõ:
 
@@ -853,11 +853,11 @@ nếu vậy chúng ta sẽ quay lại phần lesson9 nhưng tôi cần hiểu r�
 
 ---
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Mình sẽ nâng cấp `lesson 9` guide theo hướng giải thích kỹ hơn `uridecodebin`: nó ẩn những gì, vì sao phải có dynamic pad/source bin/ghost pad, và liên hệ với pipeline RTSP viết tay để dễ hình dung.
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/Projects/Deepstream-v2/deepstream-practice/lessons/beginning/09_rtsp_source_walkthrough/02_coding_guide.md</summary>
@@ -870,7 +870,7 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/Projects/Deepstream-v2/deepstream-practice/lessons/beginning/09_rtsp_source_walkthrough/04_extensions.md</summary>
@@ -883,7 +883,7 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/opt/nvidia/deepstream/deepstream-9.0/sources/apps/sample_apps/deepstream-testsr/deepstream_test_sr_app.c</summary>
@@ -896,7 +896,7 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/opt/nvidia/deepstream/deepstream-9.0/sources/apps/apps-common/src/deepstream_source_bin.c</summary>
@@ -909,18 +909,18 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <think><details><summary>Thought Process</summary>
 **Considering file updates**
 
 I need to edit one file and possibly update the entire guide with more detailed sections. I should use ApplyPatch for single file edits, but I might need to inspect the current lines for context first. It would be efficient to rewrite the entire file. Since I can’t use shell for file operations, I wonder if using cat is the easiest way? I must ensure the content is ASCII without accents and mention the changes before proceeding.</details></think>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Mình sẽ mở rộng guide theo kiểu “mental model trước, TODO sau”: thêm sơ đồ pipeline RTSP viết tay so với `uridecodebin`, giải thích dynamic pad theo timeline, và nói rõ ghost pad đang giải quyết vấn đề gì.
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2">
 
@@ -935,18 +935,18 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <think><details><summary>Thought Process</summary>
 **Considering markdown edits**
 
 I’m thinking I might need to run ReadLints. It seems like it’s not necessary for markdown, but the instructions suggest using ReadLints after any substantive edits to check for clarity or issues on recently edited files. So, it’s probably a good idea to do that anyway to ensure everything is polished. I want to make sure the formatting is just right!</details></think>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Guide đã được mở rộng khá nhiều ở phần khái niệm. Mình kiểm tra nhanh diagnostics cho file vừa sửa rồi sẽ tóm tắt chính xác những gì đã được bổ sung.
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="unknown" data-tool-name="read_lints">
 <details>
@@ -984,14 +984,14 @@ Status: **completed**
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <think><details><summary>Thought Process</summary>
 **Updating and finalizing files**
 
 I need to provide a final concise summary, mentioning the changes made to the file and what was added. It seems logical to suggest the user consider updating extensions or starter comments if that's something they want. It's always helpful to ensure everything is complete and clear, so they have a polished product in the end. That way, all the necessary details are covered and ready for any further developments!</details></think>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Mình đã nâng cấp `deepstream-practice/lessons/beginning/09_rtsp_source_walkthrough/02_coding_guide.md` theo hướng dễ bám hơn khi đọc `uridecodebin`.
 
@@ -1009,18 +1009,18 @@ _**User**_
 
 ---
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <think><details><summary>Thought Process</summary>
 **Considering file review**
 
 The user’s question, "còn file này thì sao?" probably means they want me to consider the guide and possibly upgrade. I should inspect the file and think about making suggestions or implementing changes. Since their request is a bit ambiguous, I should read through the file first and then decide whether to ask any clarifying questions or simply go ahead and update it. I need to be careful in my approach.</details></think>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Mình đọc `01_guide.md` trước để xem nó đang giữ vai trò tổng quan hay còn thiếu phần nào so với `02_coding_guide.md`, rồi mình sẽ đề xuất cách nâng hợp lý hoặc sửa luôn nếu khoảng trống rõ ràng.
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/Projects/Deepstream-v2/deepstream-practice/lessons/beginning/09_rtsp_source_walkthrough/01_guide.md</summary>
@@ -1033,7 +1033,7 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/Projects/Deepstream-v2/deepstream-practice/lessons/beginning/09_rtsp_source_walkthrough/02_coding_guide.md</summary>
@@ -1046,18 +1046,18 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <think><details><summary>Thought Process</summary>
 **Considering file updates**
 
 It looks like I need to update file 01 since the user is asking about it. They might want some enhancements, so I'll proceed to edit. I should compare roles between file 01, which is an overview, and file 02, which is more detailed. I want to refine 01 with high-level explanations that complement 02 rather than duplicating its content. I’ll add my commentary before making any edits, and small enhancements should work well.</details></think>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 `01_guide.md` hiện là bản overview nên vẫn ổn, nhưng sau khi `02_coding_guide.md` chi tiết hơn thì file này đang hơi “mỏng” ở chỗ chưa giúp người học nối được giữa pipeline RTSP viết tay và `uridecodebin`. Mình sẽ nâng nó theo hướng tổng quan, ngắn hơn `02`, tránh lặp, nhưng đủ để người đọc không bị sốc khi sang coding guide.
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2">
 
@@ -1072,11 +1072,11 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Mình kiểm tra nhanh file overview vừa sửa để chắc không có warning nào phát sinh và nội dung vẫn giữ đúng vai trò “guide tổng quan”.
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="unknown" data-tool-name="read_lints">
 <details>
@@ -1114,7 +1114,7 @@ Status: **completed**
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Mình đã nâng luôn `deepstream-practice/lessons/beginning/09_rtsp_source_walkthrough/01_guide.md`.
 
@@ -1135,18 +1135,18 @@ _**User**_
 
 ---
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <think><details><summary>Thought Process</summary>
 **Explaining agent mode**
 
 I need to focus on explaining the requirements in agent mode, particularly around how I might use ReadFile with context. It might also be useful to reference the cb_newpad code sample. I'll want to read the nearby lines to gather additional context, particularly looking at starter or exercise implementations. I think providing clear code references will be important for clarity in the explanation.</details></think>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Mình đọc thêm đúng đoạn callback liên quan trong lesson và bản exercise/reference để giải thích chính xác `get_current_caps()` với `query_caps(None)` đang làm gì trong ngữ cảnh `pad-added`.
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/Projects/Deepstream-v2/deepstream-practice/lessons/beginning/09_rtsp_source_walkthrough/02_coding_guide.md</summary>
@@ -1159,7 +1159,7 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/Projects/Deepstream-v2/deepstream-practice/archive/exercises/09_rtsp_source_walkthrough.py</summary>
@@ -1172,7 +1172,7 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/Projects/Deepstream-v2/deepstream-practice/lessons/beginning/09_rtsp_source_walkthrough/03_starter.py</summary>
@@ -1185,7 +1185,7 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Đoạn đó đang nói về bước đầu tiên trong `cb_newpad(...)`: **trước khi nối pad mới sinh ra vào pipeline**, mình phải hỏi xem pad đó thực ra đang mang loại dữ liệu gì.
 
@@ -1250,18 +1250,18 @@ vậy tại sao với file .h264 không làm điều này ?
 
 ---
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <think><details><summary>Thought Process</summary>
 **Gathering coding references**
 
 I need to provide a concise answer, possibly referencing lesson 08 from Scratch or the source branch. I should explain static pads and fixed chains, and I can pull insights from existing files. Citing relevant code in solution/08 from the h264parse to nvv4l2decoder with static pads is a good idea. Oh, and I should also note that there’s no decodebin or dynamic pad involved. It might be helpful to read the file around the build_source_branch too!</details></think>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Mình sẽ đối chiếu nhanh lesson file-source trước đó để chỉ ra chính xác vì sao `.h264` không cần bước hỏi `caps` trong callback như RTSP/`uridecodebin`.
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/Projects/Deepstream-v2/deepstream-practice/solutions/08_multisource_batching/scratch.py</summary>
@@ -1274,7 +1274,7 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/Projects/Deepstream-v2/deepstream-practice/solutions/08_multisource_batching/scratch.py</summary>
@@ -1287,7 +1287,7 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/Projects/Deepstream-v2/deepstream-practice/archive/exercises/09_rtsp_source_walkthrough.py</summary>
@@ -1300,7 +1300,7 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Vì với file `.h264`, bài học đang dùng một chain **đã biết trước hoàn toàn**, nên không cần chờ pad động xuất hiện rồi mới kiểm tra.
 
@@ -1381,14 +1381,14 @@ vậy ví dụ ở một file .mp4 (giả sử tôi chưa biết là h264 hoặc
 
 ---
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <think><details><summary>Thought Process</summary>
 **Considering conceptual answers**
 
 I think I can provide an answer based on my existing knowledge without needing tools. While I'm in agent mode, I can still respond. If I'm writing an explicit pipeline, I might mention qtdemux or decodebin/uridecodebin. I just need to be careful and nuanced in my approach. Alright, let's ensure I craft a concise response, including relevant examples to clarify!</details></think>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Đúng, **nếu bạn chưa biết trước bên trong `.mp4` là codec gì**, thì về mặt ý tưởng bạn cũng rơi vào bài toán giống RTSP: cần một cơ chế để **phát hiện media thực tế**, thay vì hard-code chain.
 
@@ -1469,14 +1469,14 @@ _**User**_
 
 ---
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <think><details><summary>Thought Process</summary>
 **Clarifying media and codec structures**
 
 I need to provide an answer to the question without tools. I believe I can rely on my existing knowledge to give a concise and clear explanation. I want to mention the differences between media, codec, and features to clarify the structure. If it seems useful, I could include a relevant code example that already exists. Overall, I want to ensure the explanation is understandable and informative.</details></think>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Gần đúng, nhưng chưa hoàn toàn chỉ là hỏi “có phải H264 không”.
 
@@ -1533,11 +1533,11 @@ _**User**_
 
 ---
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Mình mở thêm vài dòng quanh chỗ này để giải thích đúng ngữ cảnh `caps_features` và `memory:NVMM` trong callback của lesson reference.
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/Projects/Deepstream-v2/deepstream-practice/lessons/beginning/09_rtsp_source_walkthrough/05_reference.py</summary>
@@ -1550,7 +1550,7 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Hai dòng này là bước **lọc pad output phù hợp cho DeepStream**.
 
@@ -1623,7 +1623,7 @@ _**User**_
 
 ---
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Vì đây là **2 lần kiểm tra ở 2 thời điểm khác nhau**, không bị trùng ý hoàn toàn.
 
@@ -1697,14 +1697,14 @@ truyền None vào bên trong là sao ?
 
 ---
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <think><details><summary>Thought Process</summary>
 **Explaining query_caps in GStreamer**
 
 I need to answer a question about `query_caps(None)` in GStreamer. No tools are needed for this one. First, let’s clarify that in Agent mode, I’m just answering based on my knowledge. I should mention that in Python bindings, `None` corresponds to NULL filter caps, which means querying all possible capabilities. My goal is to craft a clear and concise explanation for the user.</details></think>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Trong `decoder_src_pad.query_caps(None)`, truyền `None` nghĩa là:
 
@@ -1775,7 +1775,7 @@ pad ở đây là sao? pad là cổng ?
 
 ---
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Đúng, bạn có thể hiểu **`pad` gần như là “cổng”** của một GStreamer element.
 
@@ -1885,11 +1885,11 @@ _**User**_
 
 ---
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Mình kiểm tra nhanh schema của MCP docs tool trước, rồi đối chiếu với ngữ nghĩa `GstCaps.get_features()` để giải thích chính xác `0` ở đây là gì trong GStreamer.
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="search" data-tool-name="glob_file_search">
 <details>
@@ -1910,7 +1910,7 @@ Directory: **/home/vtea/.cursor/projects/home-vtea-Projects-Deepstream-v2/mcps/u
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/Projects/Deepstream-v2/deepstream-practice/lessons/beginning/09_rtsp_source_walkthrough/05_reference.py</summary>
@@ -1923,11 +1923,11 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Mình đọc schema của tool docs rồi gọi tài liệu GStreamer đúng API này, để không giải thích sai chỗ `0` là index của structure trong `caps`.
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/.cursor/projects/home-vtea-Projects-Deepstream-v2/mcps/user-context7/tools/resolve-library-id.json</summary>
@@ -1940,7 +1940,7 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/.cursor/projects/home-vtea-Projects-Deepstream-v2/mcps/user-context7/tools/query-docs.json</summary>
@@ -1953,7 +1953,7 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="unknown" data-tool-name="mcp-context7-user-context7-resolve-library-id">
 <details>
@@ -1998,11 +1998,11 @@ Status: **completed**
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Schema đã xác nhận đúng; lần gọi vừa rồi thiếu đối số. Mình gọi lại đúng tham số để lấy docs GStreamer rồi giải thích chính xác `get_features(0)`.
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="unknown" data-tool-name="mcp-context7-user-context7-resolve-library-id">
 <details>
@@ -2047,7 +2047,7 @@ Status: **completed**
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="unknown" data-tool-name="mcp-context7-user-context7-query-docs">
 <details>
@@ -2092,14 +2092,14 @@ Status: **completed**
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <think><details><summary>Thought Process</summary>
 **Explaining GstCaps structure**
 
 I need to provide a concise answer about GstCaps. The index 0 refers to the first structure within GstCaps, and features are associated with each structure. Typically, the current caps are fixed and consist of just one structure, so I use index 0. If there are multiple structures, I can inspect their sizes. It's important to note that `memory:NVMM` is a feature attached to the first structure, not a field. I could reference GStreamer docs for this information.</details></think>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 `0` ở đây là **index của structure đầu tiên bên trong `GstCaps`**.
 
@@ -2194,7 +2194,7 @@ memory:NVMM là gì ?
 
 ---
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 `memory:NVMM` là một **caps feature** báo rằng buffer video đang nằm trong **bộ nhớ kiểu NVIDIA** mà DeepStream/NVIDIA plugins muốn dùng.
 
@@ -2261,18 +2261,18 @@ _**User**_
 
 ---
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <think><details><summary>Thought Process</summary>
 **Exploring caps and ghost pads**
 
 I need to provide an answer in ask mode without any edits. I should delve deeply into the differences between caps and caps_features, then transition into discussing ghost pads. It might be helpful to include some code references, specifically looking at the create_source_bin lines that relate to ghost pads and the main link. I’ll inspect these elements to ensure I have enough information to provide a thorough explanation.</details></think>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Mình sẽ đọc thêm chỗ tạo ghost pad trong `create_source_bin(...)` để nối hẳn ý nghĩa của `caps` và `caps_features` sang bước `set_target(...)`, rồi mình tổng kết theo đúng luồng callback.
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/Projects/Deepstream-v2/deepstream-practice/lessons/beginning/09_rtsp_source_walkthrough/05_reference.py</summary>
@@ -2285,7 +2285,7 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/Projects/Deepstream-v2/deepstream-practice/lessons/beginning/09_rtsp_source_walkthrough/05_reference.py</summary>
@@ -2298,14 +2298,14 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <think><details><summary>Thought Process</summary>
 **Explaining structure and features**
 
 I need to explain things thoroughly. I could bring up the structure and features of the caps, and maybe provide some examples. It makes sense to refer to the context from the earlier docs I've gathered, but I don't necessarily need to cite external sources. Let's think about organizing my explanation into sections, perhaps starting with "Hai lớp thông tin." My goal is to keep it concise yet clear for better understanding.</details></think>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Đúng, tổng kết của bạn là đúng hướng. Nếu đi thật kỹ thì đoạn `47-58` đang làm đúng 1 việc lớn:
 
@@ -2550,18 +2550,18 @@ tổng hợp phần kiến thức này vào trong file coding guide đi, tôi th
 
 ---
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <think><details><summary>Thought Process</summary>
 **Planning for file updates**
 
 I need to start editing the file, but first, I should provide a commentary update before making any substantial changes. It’s important to inspect the relevant sections, particularly around the callback mentioned in the guide. After that, I can read the file and apply the necessary patches. Finally, I’ll lead with linting to ensure everything is tidy. Let's get to it!</details></think>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Mình sẽ chèn phần giải thích sâu ngay quanh đoạn `cb_newpad(...)`: làm rõ `pad`, `caps`, `caps_features`, `memory:NVMM`, vì sao có 2 lần kiểm tra `caps`, và chúng dẫn tới `ghost_pad.set_target(...)` như thế nào.
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/Projects/Deepstream-v2/deepstream-practice/lessons/beginning/09_rtsp_source_walkthrough/02_coding_guide.md</summary>
@@ -2574,7 +2574,7 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/Projects/Deepstream-v2/deepstream-practice/lessons/beginning/09_rtsp_source_walkthrough/05_reference.py</summary>
@@ -2587,18 +2587,18 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <think><details><summary>Thought Process</summary>
 **Updating project documentation**
 
 I'm focusing on editing the section around `cb_newpad`. I think it would be good to add a deeper explanation there and consider updating the wording on line 242 to make it clearer. It seems like patching that one file will be necessary to ensure everything is well-documented and easy to understand. I'll make sure to take my time on this so I can accurately convey the information!</details></think>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Mình đã xác định đúng vùng cần mở rộng: phần `cb_newpad(...)` hiện mới nêu ý chính, nhưng chưa nối hết mạch từ `pad -> caps -> caps_features -> NVMM -> ghost pad target`. Mình sẽ bổ sung ngay trong `02_coding_guide.md` để người đọc không cần tự suy diễn nữa.
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2">
 
@@ -2613,11 +2613,11 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Mình đã thêm phần giải thích chi tiết ngay chỗ callback, gồm cả các câu hỏi bạn vừa đào sâu. Giờ mình kiểm tra nhanh diagnostics để chắc phần guide mới không phát sinh vấn đề định dạng.
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="unknown" data-tool-name="read_lints">
 <details>
@@ -2655,7 +2655,7 @@ Status: **completed**
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Mình đã tổng hợp phần kiến thức đó vào `deepstream-practice/lessons/beginning/09_rtsp_source_walkthrough/02_coding_guide.md`.
 
@@ -2683,11 +2683,11 @@ _**User**_
 
 ---
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Mình sẽ nối đúng 3 chỗ của `05_reference.py`: nơi tạo `ghost pad`, nơi gán target, và nơi `main(...)` dùng nó, để phần này thành một mạch dễ hiểu.
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/Projects/Deepstream-v2/deepstream-practice/lessons/beginning/09_rtsp_source_walkthrough/05_reference.py</summary>
@@ -2700,7 +2700,7 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/Projects/Deepstream-v2/deepstream-practice/lessons/beginning/09_rtsp_source_walkthrough/05_reference.py</summary>
@@ -2713,7 +2713,7 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /home/vtea/Projects/Deepstream-v2/deepstream-practice/lessons/beginning/09_rtsp_source_walkthrough/05_reference.py</summary>
@@ -2726,14 +2726,14 @@ _**Agent (gpt-5.4-medium)**_
 
 </details></tool-use>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 <think><details><summary>Thought Process</summary>
 **Explaining ghost pads**
 
 I need to provide a detailed answer, without relying on additional tools. First, I’ll explain what a ghost pad is, particularly how it's a proxy for an exposed pad of a bin. Then, I’ll dive into why a static pad is used even when the target is dynamic—this relates to how the ghost pad is created once with a fixed name (src) while the target can change later to a dynamic internal pad. I’ll include code examples for clarity.</details></think>
 
-_**Agent (gpt-5.4-medium)**_
+_**Agent (gpt-5.4-low)**_
 
 Đoạn này là **chỗ biến một pad động bên trong `source_bin` thành cổng ra ổn định cho cả pipeline**.
 
@@ -2929,3 +2929,286 @@ Nếu bạn muốn, mình có thể giải thích tiếp thật kỹ sự khác 
 - `dynamic pad`
 
 vì 4 khái niệm này rất hay bị lẫn với nhau khi học GStreamer.
+
+---
+
+_**User**_
+
+thực ra với tôi vẫn hơi khó hiểu, vì đoạn code sử dụng khá nhiều phần này, và còn mới, và tôi chưa hiểu là chúng ta sẽ khởi tạo cái gì trước cái gì sau 
+
+---
+
+_**Agent (gpt-5.4-low)**_
+
+Chuẩn, chỗ này khó chủ yếu vì nó có **2 timeline chạy song song**:
+
+- timeline **khởi tạo object/pipeline**
+- timeline **runtime khi pad động xuất hiện**
+
+Nếu trộn hai timeline này vào nhau thì rất rối. Cách dễ hiểu nhất là tách ra.
+
+## Timeline 1: Khởi tạo trước khi pipeline chạy
+
+Đây là những gì code làm trước.
+
+### Bước 1: tạo `source_bin`
+Trong `create_source_bin(...)`, đầu tiên tạo cái “vỏ hộp”:
+
+```65:69:deepstream-practice/lessons/beginning/09_rtsp_source_walkthrough/05_reference.py
+def create_source_bin(index, uri):
+    bin_name = f"source-bin-{index:02d}"
+    source_bin = Gst.Bin.new(bin_name)
+    if not source_bin:
+        raise RuntimeError("Khong tao duoc source bin")
+```
+
+Lúc này mới chỉ có cái bin rỗng.
+
+### Bước 2: tạo `uridecodebin`
+Sau đó mới tạo source động bên trong:
+
+```71:73:deepstream-practice/lessons/beginning/09_rtsp_source_walkthrough/05_reference.py
+    uri_decode_bin = make_element("uridecodebin", f"uri-decode-bin-{index}")
+    uri_decode_bin.set_property("uri", uri)
+    uri_decode_bin.connect("pad-added", cb_newpad, source_bin)
+```
+
+Ý nghĩa:
+
+- tạo `uridecodebin`
+- gán `uri`
+- đăng ký callback `pad-added`
+
+Lúc này vẫn **chưa có output pad thật**.
+
+### Bước 3: add `uridecodebin` vào `source_bin`
+```75:79:deepstream-practice/lessons/beginning/09_rtsp_source_walkthrough/05_reference.py
+    source_bin.add(uri_decode_bin)
+    ghost_pad = Gst.GhostPad.new_no_target("src", Gst.PadDirection.SRC)
+    if not ghost_pad:
+        raise RuntimeError("Khong tao duoc ghost pad cho source bin")
+    source_bin.add_pad(ghost_pad)
+```
+
+Ở đây có một ý rất quan trọng:
+
+- tạo luôn `ghost pad` tên `src`
+- nhưng nó là `new_no_target(...)`
+- tức là **có cổng ra rồi, nhưng chưa nối vào pad thật nào**
+
+Nói dễ hiểu:
+
+- `source_bin` đã có “đầu ra ngoài”
+- nhưng đầu ra này đang chưa cắm dây vào đâu cả
+
+### Bước 4: trả `source_bin` về cho `main(...)`
+```80:81:deepstream-practice/lessons/beginning/09_rtsp_source_walkthrough/05_reference.py
+    return source_bin
+```
+
+Lúc này `main(...)` có một `source_bin` nhìn từ ngoài như có `src` pad, nhưng bên trong chưa hoàn tất output thật.
+
+---
+
+## Timeline 2: `main(...)` dựng pipeline lớn
+
+Sau khi có `source_bin`, `main(...)` làm phần pipeline chính.
+
+### Bước 5: tạo downstream elements
+```84:90:deepstream-practice/lessons/beginning/09_rtsp_source_walkthrough/05_reference.py
+    pipeline = Gst.Pipeline.new("lesson-09-pipeline")
+    source_bin = create_source_bin(0, uri)
+    streammux = make_element("nvstreammux", "stream-muxer")
+    pgie = make_element("nvinfer", "infer")
+    nvvidconv = make_element("nvvideoconvert", "vidconv")
+    nvosd = make_element("nvdsosd", "osd")
+    sink = make_element("fakesink", "fake-sink")
+```
+
+### Bước 6: add tất cả vào pipeline
+```112:113:deepstream-practice/lessons/beginning/09_rtsp_source_walkthrough/05_reference.py
+    for element in (source_bin, streammux, pgie, nvvidconv, nvosd, sink):
+        pipeline.add(element)
+```
+
+### Bước 7: link `source_bin.src` vào `streammux.sink_0`
+```115:120:deepstream-practice/lessons/beginning/09_rtsp_source_walkthrough/05_reference.py
+    sinkpad = streammux.request_pad_simple("sink_0")
+    srcpad = source_bin.get_static_pad("src")
+    if not sinkpad or not srcpad:
+        raise RuntimeError("Khong lay duoc pad de noi source bin vao nvstreammux")
+    if srcpad.link(sinkpad) != Gst.PadLinkReturn.OK:
+        raise RuntimeError("Khong link duoc source bin -> nvstreammux.sink_0")
+```
+
+Chỗ này dễ gây bối rối nhất:
+
+- `source_bin.src` đã tồn tại vì bạn tạo ghost pad từ trước
+- nhưng pad đó **chưa có target thật**
+- tuy vậy pipeline vẫn có thể dựng sẵn cấu trúc link ở mức bin pad
+
+Tức là `main(...)` chỉ cần biết:
+
+- source bin có một cổng ra tên `src`
+- sau này callback sẽ tự nối pad thật vào đó
+
+---
+
+## Timeline 3: Khi pipeline chuyển sang `PLAYING`
+
+Đây mới là lúc pad động thật sự xuất hiện.
+
+### Bước 8: `uridecodebin` bắt đầu mở RTSP URI
+Khi pipeline chạy, `uridecodebin` mới:
+- mở source
+- phân tích media
+- chọn decode path
+- tạo output pad phù hợp
+
+### Bước 9: signal `pad-added` được gọi
+Lúc pad output xuất hiện, callback `cb_newpad(...)` chạy:
+
+```47:58:deepstream-practice/lessons/beginning/09_rtsp_source_walkthrough/05_reference.py
+    _ = decodebin
+    caps = decoder_src_pad.get_current_caps()
+    if not caps:
+        caps = decoder_src_pad.query_caps(None)
+    if not caps:
+        print("Khong lay duoc caps tu decodebin.")
+        return
+
+    caps_features = caps.get_features(0)
+    if not caps_features.contains("memory:NVMM"):
+        print("Bo qua pad khong dung NVMM, can xem lai source / decode path.")
+        return
+```
+
+Ở đây callback đang:
+- nhận pad mới
+- kiểm tra pad đó có hợp lệ không
+- chỉ giữ pad đúng memory path DeepStream cần
+
+### Bước 10: gắn pad thật vào ghost pad
+```60:62:deepstream-practice/lessons/beginning/09_rtsp_source_walkthrough/05_reference.py
+    ghost_pad = source_bin.get_static_pad("src")
+    if ghost_pad and not ghost_pad.set_target(decoder_src_pad):
+        print("Khong gan duoc ghost pad target.")
+```
+
+Đây là khoảnh khắc quan trọng nhất:
+
+- trước đó `source_bin.src` là cổng ra “rỗng”
+- bây giờ callback gắn `decoder_src_pad` vào cổng đó
+- từ lúc này `source_bin.src` mới thực sự dẫn ra dữ liệu video thật
+
+---
+
+## Cách hiểu cực ngắn theo thứ tự trước-sau
+
+Nếu bạn chỉ muốn nhớ thứ tự, hãy nhớ như này:
+
+1. tạo `source_bin`
+2. tạo `uridecodebin`
+3. connect `pad-added`
+4. tạo `ghost pad src` chưa có target
+5. trả `source_bin` về
+6. `main(...)` add `source_bin` vào pipeline
+7. `main(...)` link `source_bin.src` vào `nvstreammux`
+8. pipeline chạy
+9. `uridecodebin` mới sinh `decoder_src_pad`
+10. callback kiểm tra `caps` và `caps_features`
+11. nếu hợp lệ thì `ghost_pad.set_target(decoder_src_pad)`
+
+---
+
+## Vì sao phải làm theo thứ tự này?
+
+Vì có một thứ **chưa thể có ngay lúc khởi tạo**:
+
+- `decoder_src_pad`
+
+Pad này chỉ xuất hiện sau khi:
+- `uridecodebin` chạy
+- media được phân tích
+- decode path được quyết định
+
+Cho nên bạn không thể:
+
+- tạo `uridecodebin`
+- rồi lấy ngay `decoder_src_pad`
+- rồi link luôn
+
+Không có pad thật ở thời điểm đó.
+
+Vì thế kiến trúc phải là:
+
+- tạo trước một **cổng đại diện** là ghost pad
+- đến khi pad thật xuất hiện thì mới gắn target vào ghost pad đó
+
+---
+
+## Một hình ASCII dễ nhớ
+
+```text
+Giai doan khoi tao:
+
+source_bin
+  └─ ghost src pad (da co, nhung rong)
+
+source_bin
+  └─ uridecodebin (da co, nhung chua sinh output pad)
+
+main()
+  source_bin.src -> streammux.sink_0   (link khung ngoai)
+
+
+
+Giai doan runtime:
+
+uridecodebin sinh decoder_src_pad
+        |
+        v
+cb_newpad() kiem tra caps + NVMM
+        |
+        v
+ghost_pad.set_target(decoder_src_pad)
+
+Ket qua:
+source_bin.src thuc su dan den output video hop le
+```
+
+---
+
+## Chỗ gây rối nhất, nói thẳng ra là gì?
+
+Chỗ khó nhất là bạn thấy:
+
+- `source_bin.src` được lấy ở `main(...)`
+- nhưng pad thật lại chỉ xuất hiện sau ở callback
+
+Nghe có vẻ ngược thời gian.
+
+Nhưng thực ra không ngược, vì:
+
+- `source_bin.src` là **ghost pad được tạo sẵn**
+- nó là “vỏ giao diện”
+- còn `decoder_src_pad` là “ruột thật”
+- callback chỉ việc nhét “ruột thật” vào “vỏ giao diện” đó sau
+
+---
+
+## Chốt lại một câu
+
+Thứ tự đúng để hiểu bài này là:
+
+- **khởi tạo cái vỏ trước**: `source_bin`, `ghost pad`, pipeline links
+- **pad thật đến sau**: `uridecodebin` chạy rồi mới sinh `decoder_src_pad`
+- **callback là nơi nối pad thật vào cái vỏ đã chuẩn bị sẵn**
+
+Nếu muốn, ở lượt tiếp theo mình có thể làm cho bạn một bảng 3 cột rất rõ:
+
+- `cái gì được tạo`
+- `được tạo lúc nào`
+- `dùng để làm gì`
+
+cho toàn bộ `lesson 09`, để bạn nhìn một phát là nắm flow.
