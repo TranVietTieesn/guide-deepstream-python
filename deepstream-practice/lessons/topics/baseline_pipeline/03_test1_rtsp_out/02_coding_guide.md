@@ -1,129 +1,213 @@
 # Lesson 03 Coding Guide
 
-Lesson nay co them 2 block code moi ma lesson 01 va 02 khong co:
+Tai lieu nay la guide thuc thi theo tung buoc de hoan thanh `03_starter.py`.
+Muc tieu la giup ban code co thu tu, de debug, va de review.
 
-- encoder chain
-- RTSP server helper
+## Scope Of This Guide
 
-Neu ban muon code lam chut nao cung duoc, hay chia thanh 2 pha:
+Ban se hoan thanh 9 TODO trong starter:
 
-1. lam xong pipeline media
-2. moi lam xong RTSP server wiring
+- TODO 1-4: viet helper function.
+- TODO 5-8: wiring pipeline media.
+- TODO 9: wiring RTSP server.
 
-## Before You Code
+Tu duy chinh:
 
-- Input: H.264 file.
-- Output: RTSP stream qua `GstRtspServer`.
-- Imports can nho:
+1. Dung pipeline tao RTP packet.
+2. Dung RTSP server expose RTP thanh URL cho client.
+
+## Prerequisites
+
+Truoc khi code, kiem tra:
+
+- Input la file H.264 hop le.
+- Ton tai file config infer:
+  `apps/deepstream-test1-rtsp-out/dstest1_pgie_config.txt`.
+- Imports:
   - `Gst`, `GLib`
   - `GstRtspServer`
   - `PlatformInfo`
-  - `bus_call`
-  - khong can `pyds` trong starter nay vi probe/metadata chua duoc khai thac
-    trong doc nay
+  - helper bus message (`bus_call` hoac custom handler)
 
-## Build Order
+## Implementation Strategy (Recommended)
 
-1. Viet `on_message(...)`.
-2. Viet `make_element(...)`.
-3. Viet `create_sink(...)`.
-4. Viet `create_rtsp_server(...)`.
-5. Trong `main(args)`, parse input va check config.
-6. Tao pipeline va cac element tu source den UDP sink.
-7. Set property cho source, mux, infer, encoder, sink.
-8. Add tat ca element vao pipeline.
-9. Link decode chain va request pad vao muxer.
-10. Link downstream encoder chain.
-11. Tao RTSP server va attach mount point.
-12. Tao bus/main loop va chay pipeline.
+Thuc hien theo 2 pha:
 
-## Function-By-Function Walkthrough
+### Phase A - Media Pipeline First
 
-### `main(args)`
+- Tao va link xong chain den `udpsink`.
+- Dam bao pipeline PLAYING khong fail.
 
-- `main(...)` van bat dau bang input validation nhu cac lesson truoc.
-- Diem khac la sau khi pipeline da link xong, ban con phai khoi tao server.
-- Neu ban tao server truoc khi pipeline san sang, debug se bi roi:
-  - khong ro stream fail o data plane hay server plane
+### Phase B - RTSP Service Second
 
-### `create_rtsp_server(port, codec)`
+- Tao `GstRtspServer`.
+- Tao `RTSPMediaFactory` va mount `/ds-test`.
+- Verify client mo duoc stream.
 
-- Day la helper setup output layer.
-- No khong tao media frames.
-- No chi:
-  - tao server
-  - set service port
-  - tao media factory
-  - gan launch string
-  - add mount point
+Lam theo thu tu nay giup debug nhanh hon vi tach ro data plane va service plane.
 
-Hieu ham nay nhu "web server wiring for media", khong phai "video processing".
+## Build Order (One-pass)
+
+1. Implement `on_message(...)`.
+2. Implement `make_element(...)`.
+3. Implement `create_sink(...)`.
+4. Implement `create_rtsp_server(...)`.
+5. Trong `main(args)`: validate input + config.
+6. Tao day du element.
+7. Set property cho source/mux/infer/encoder/sink.
+8. Add tat ca vao pipeline.
+9. Link source decode chain.
+10. Link request pad: `decoder.src -> streammux.sink_0`.
+11. Link downstream encode chain den `udpsink`.
+12. Khoi tao RTSP server.
+13. Main loop + bus watch + cleanup.
+
+## Function Guide
+
+### `on_message(bus, message, loop)`
+
+Bat buoc handle:
+
+- `EOS`: in log, `loop.quit()`.
+- `ERROR`: parse error + debug string, in log, `loop.quit()`.
+
+Muc tieu: app thoat sach thay vi treo.
+
+### `make_element(factory_name, name)`
+
+Pattern dung:
+
+1. `Gst.ElementFactory.make(...)`.
+2. Neu fail, raise `RuntimeError` ngay.
+
+Tai sao quan trong: fail som de biet thieu plugin nao.
 
 ### `create_sink(platform_info)`
 
-- Van giu chan trong baseline: logic chon sink phu thuoc platform.
-- Trong RTSP lesson, sink nay khong phai final UX, nhung van can co vi app co the
-  muon local render khi debug.
+Guide co ban:
 
-## Syntax Notes
+- Integrated GPU / aarch64: uu tien `nv3dsink`.
+- Con lai: `nveglglessink`.
 
-- `caps.set_property("caps", Gst.Caps.from_string(...))`
-  - dung de dat format truoc encoder.
-- `encoder.set_property("insert-sps-pps", 1)`
-  - rat quan trong voi stream live.
-- `factory.set_launch("...")`
-  - chuoi launch cua RTSP factory khong phai pipeline Python.
-- `server.get_mount_points().add_factory("/ds-test", factory)`
-  - day la noi server public endpoint.
+Luu y: bai nay output chinh la RTSP, local sink chi ho tro debug.
 
-## Starter Mapping
+### `create_rtsp_server(port, codec)`
 
-### TODO 1: `on_message(...)`
+Can lam du:
 
-- `EOS`
-- `ERROR`
+1. Tao `RTSPServer`, set `service = str(port)`.
+2. Tao `RTSPMediaFactory`.
+3. `set_launch(...)` voi `udpsrc name=pay0 port=5400 ... encoding-name=<codec>`.
+4. `factory.set_shared(True)`.
+5. Mount vao `/ds-test`.
+6. `server.attach(None)`.
 
-### TODO 2: `make_element(...)`
+Nho: launch string nay la mini pipeline cua RTSP factory, khong phai pipeline Python.
 
-- Tao element va fail som neu khong co plugin.
+## Property Checklist (TODO 5)
 
-### TODO 3: `create_sink(...)`
+Property toi thieu nen set:
 
-- Chon sink theo platform.
+- `source.location = input_path`
+- `streammux.batch-size = 1`
+- `streammux.width/height/batched-push-timeout` (neu pipeline can)
+- `pgie.config-file-path = PGIE_CONFIG_PATH`
+- `caps.caps = Gst.Caps.from_string("video/x-raw(memory:NVMM), format=I420")`
+- `encoder.bitrate = 4000000` (tham khao)
+- `encoder.insert-sps-pps = 1`
+- `sink.host = "224.224.255.255"` (hoac host mong muon)
+- `sink.port = 5400`
+- `sink.async = False`
+- `sink.sync = 1`
 
-### TODO 4: `create_rtsp_server(...)`
+## Linking Checklist
 
-- Tao server, media factory, launch string, mount point.
+### TODO 7: Decode + Mux
 
-### TODO 5: Set property
+- Link:
+  `filesrc -> h264parse -> nvv4l2decoder`
+- Xin request pad:
+  `streammux.request_pad_simple("sink_0")`
+- Link:
+  `decoder.get_static_pad("src") -> streammux.sink_0`
 
-- `source.location`
-- `streammux.batch-size`
-- `pgie.config-file-path`
-- `encoder.bitrate`
-- `encoder.insert-sps-pps`
-- `sink.host/port/async/sync`
+### TODO 8: Downstream Encode Chain
 
-### TODO 6: Add elements
+Link dung thu tu:
 
-- Tu source den sink.
+`streammux -> pgie -> nvvidconv -> nvosd -> nvvidconv_postosd -> caps -> encoder -> rtppay -> udpsink`
 
-### TODO 7: Link decode chain va request pad
+Bat buoc check tung `link()` va raise neu fail.
 
-- `filesrc -> h264parse -> nvv4l2decoder`
-- `decoder.src -> streammux.sink_0`
+## TODO-by-TODO Mapping
 
-### TODO 8: Link encoder chain
+### TODO 1
 
-- `streammux -> pgie -> nvvidconv -> nvosd -> nvvidconv_postosd -> caps -> encoder -> rtppay -> sink`
+- Hoan thanh message handler cho `EOS` va `ERROR`.
 
-### TODO 9: Tao RTSP server
+### TODO 2
 
-- `create_rtsp_server(8554, "H264")`
+- Hoan thanh helper tao element + fail-fast.
 
-## Mini Checkpoints
+### TODO 3
 
-- Sau TODO 8, ban da co RTP packets chua?
-- Sau TODO 9, ban da co endpoint `/ds-test` chua?
-- Neu bo server helper, pipeline co con output duoc ra network khong?
-- Ban co biet phan nao la data plane va phan nao la service plane khong?
+- Hoan thanh sink selection theo platform.
+
+### TODO 4
+
+- Hoan thanh RTSP server helper + `/ds-test`.
+
+### TODO 5
+
+- Dat property cho source/mux/infer/encoder/sink/caps.
+
+### TODO 6
+
+- `pipeline.add(...)` day du tat ca element.
+
+### TODO 7
+
+- Link decode chain + request pad vao mux.
+
+### TODO 8
+
+- Link toan bo chain sau mux den UDP sink.
+
+### TODO 9
+
+- Goi `create_rtsp_server(8554, "H264")`.
+
+## Verification Workflow
+
+### Step 1: Runtime logs
+
+- App vao PLAYING khong loi link/property.
+- Khong co message ERROR tu bus.
+
+### Step 2: Endpoint check
+
+- Co mount point `/ds-test`.
+- Mo stream:
+  `rtsp://<host>:8554/ds-test`
+
+### Step 3: Functional check
+
+- Client hien stream.
+- Overlay detect xuat hien (neu OSD/probe da bat).
+
+## Quick Troubleshooting Matrix
+
+- **No element**: sai factory name hoac thieu plugin.
+- **No stream in client**: sai `udpsink.port` vs `udpsrc port` trong factory.
+- **Client cannot connect**: RTSP port da bi chiem hoac sai URL.
+- **Pipeline links fail**: sai thu tu chain hoac thieu caps hop le.
+- **Stream unstable**: thu dieu chinh bitrate/sync va bat `insert-sps-pps`.
+
+## Completion Rubric
+
+Ban co the xem la "xong bai" neu:
+
+1. Code het TODO, khong con `NotImplementedError`.
+2. Pipeline PLAYING on dinh.
+3. Client mo duoc `rtsp://.../ds-test`.
+4. Ban giai thich duoc tai sao `udpsink` va `GstRtspServer` phai khop port.

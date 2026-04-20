@@ -1,4 +1,10 @@
+__pycache__/
+.venv/
+.env
+.DS_Store
+*.pyc
+
 .specstory/
 .cursor/
-__pycache__/
-*.pyc
+.vscode/
+.continue/
