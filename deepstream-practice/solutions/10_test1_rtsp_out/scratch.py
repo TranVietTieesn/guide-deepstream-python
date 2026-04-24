@@ -175,13 +175,8 @@ def main(args):
     nvosd = make_element("nvdsosd", "onscreendisplay")
     nvvidconv_postosd = make_element("nvvideoconvert", "convertor_postosd")
     caps = make_element("capsfilter", "filter")
-
-    if platform_info.is_integrated_gpu():
-        encoder = make_element("nvv4l2h264enc", "encoder")
-        print("Creating H264 Encoder")
-    else:
-        encoder = make_element("nvv4l2h264enc", "encoder")
-        print("Creating H264 Encoder")
+    encoder = make_element("nvv4l2h264enc", "encoder")
+        
 
     rtppay = make_element("rtph264pay", "rtppay")
     sink = make_element("udpsink", "udpsink")
@@ -198,6 +193,7 @@ def main(args):
     encoder.set_property("bitrate", 4000000)
     encoder.set_property("insert-sps-pps", 1)
     if platform_info.is_integrated_gpu():
+        print("")
         encoder.set_property("preset-level", 1)
     # Loopback is more reliable than multicast for local RTSP testing.
     sink.set_property("host", "127.0.0.1")

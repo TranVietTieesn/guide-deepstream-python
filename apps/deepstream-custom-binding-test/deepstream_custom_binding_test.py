@@ -17,14 +17,15 @@
 # limitations under the License.
 ################################################################################
 
-import sys
 import os
+import sys
+
 import gi
 
-gi.require_version('Gst', '1.0')
-from gi.repository import Gst, GLib
-
+gi.require_version("Gst", "1.0")
 import pyds
+from gi.repository import GLib, Gst
+
 
 def bus_call(bus, message, loop):
     t = message.type
@@ -36,9 +37,10 @@ def bus_call(bus, message, loop):
         print("Warning: %s: %s" % (err, debug))
     elif t == Gst.MessageType.ERROR:
         err, debug = message.parse_error()
-        sys.std.err.write("Error: %s: %s" % (err, debug))
+        sys.stderr.write("Error: %s: %s" % (err, debug))
         loop.quit()
     return True
+
 
 def streammux_src_pad_buffer_probe(pad, info, u_data):
     gst_buffer = info.get_buffer()
@@ -63,8 +65,8 @@ def streammux_src_pad_buffer_probe(pad, info, u_data):
         user_meta = pyds.nvds_acquire_user_meta_from_pool(batch_meta)
 
         if user_meta:
-            print('adding user meta')
-            test_string = 'test message ' + str(frame_number)
+            print("adding user meta")
+            test_string = "test message " + str(frame_number)
             data = pyds.alloc_custom_struct(user_meta)
             data.message = test_string
             data.message = pyds.get_string(data.message)
@@ -76,7 +78,7 @@ def streammux_src_pad_buffer_probe(pad, info, u_data):
 
             pyds.nvds_add_user_meta_to_frame(frame_meta, user_meta)
         else:
-            print('failed to acquire user meta')
+            print("failed to acquire user meta")
 
         try:
             l_frame = l_frame.next
@@ -115,10 +117,12 @@ def fakesink_sink_pad_buffer_probe(pad, info, u_data):
 
             if user_meta.base_meta.meta_type == pyds.NvDsMetaType.NVDS_USER_META:
                 custom_msg_meta = pyds.CustomDataStruct.cast(user_meta.user_meta_data)
-                print(f'event msg meta, otherAttrs = {pyds.get_string(custom_msg_meta.message)}')
-                print('custom meta structId:: ', custom_msg_meta.structId)
-                print('custom meta msg:: ', pyds.get_string(custom_msg_meta.message))
-                print('custom meta sampleInt:: ', custom_msg_meta.sampleInt)
+                print(
+                    f"event msg meta, otherAttrs = {pyds.get_string(custom_msg_meta.message)}"
+                )
+                print("custom meta structId:: ", custom_msg_meta.structId)
+                print("custom meta msg:: ", pyds.get_string(custom_msg_meta.message))
+                print("custom meta sampleInt:: ", custom_msg_meta.sampleInt)
             try:
                 l_usr = l_usr.next
             except StopIteration:
@@ -171,12 +175,12 @@ def main(args):
     if not sink:
         sys.stderr.write(" Unable to create fake sink \n")
     print("reading input")
-    print("Playing file %s " %args[1])
-    source.set_property('location', args[1])
+    print("Playing file %s " % args[1])
+    source.set_property("location", args[1])
 
-    streammux.set_property('width', 1280)
-    streammux.set_property('height', 720)
-    streammux.set_property('batch-size', 1)
+    streammux.set_property("width", 1280)
+    streammux.set_property("height", 720)
+    streammux.set_property("batch-size", 1)
 
     print("Adding elements to Pipeline")
     pipeline.add(source)
@@ -209,16 +213,20 @@ def main(args):
     bus.add_signal_watch()
     bus.connect("message", bus_call, loop)
 
-    streammux_src_pad = streammux.get_static_pad('src')
+    streammux_src_pad = streammux.get_static_pad("src")
     if not streammux_src_pad:
         sys.stderr.write(" Unable to get src pad of streammux")
-    streammux_src_pad.add_probe(Gst.PadProbeType.BUFFER, streammux_src_pad_buffer_probe, 0)
+    streammux_src_pad.add_probe(
+        Gst.PadProbeType.BUFFER, streammux_src_pad_buffer_probe, 0
+    )
 
-    fakesink_sink_pad = sink.get_static_pad('sink')
+    fakesink_sink_pad = sink.get_static_pad("sink")
     if not fakesink_sink_pad:
         sys.stderr.write(" Unable to get sink pad of fakesink")
-    fakesink_sink_pad.add_probe(Gst.PadProbeType.BUFFER, fakesink_sink_pad_buffer_probe, 0)
-    Gst.debug_bin_to_dot_file(pipeline, Gst.DebugGraphDetails.ALL, 'graph')
+    fakesink_sink_pad.add_probe(
+        Gst.PadProbeType.BUFFER, fakesink_sink_pad_buffer_probe, 0
+    )
+    Gst.debug_bin_to_dot_file(pipeline, Gst.DebugGraphDetails.ALL, "graph")
     print("Starting pipeline")
 
     pipeline.set_state(Gst.State.PLAYING)
@@ -231,5 +239,5 @@ def main(args):
     pipeline.set_state(Gst.State.NULL)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main(sys.argv))
